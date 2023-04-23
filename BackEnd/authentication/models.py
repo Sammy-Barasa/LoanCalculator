@@ -44,6 +44,7 @@ class User(AbstractUser):
     phone = PhoneField(blank=True, help_text='Contact phone number')
     mpesa_no = PhoneField(blank=True, help_text='Mpesa phone number')
     is_developer = models.BooleanField(default=False)
+    is_social_login = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
