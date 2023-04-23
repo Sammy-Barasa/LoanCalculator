@@ -1,0 +1,11 @@
+django
+django-cors-headers
+django-phone-field
+djangorestframework
+djangorestframework-simplejwt
+drf-yasg
+gunicorn
+postgres
+psycopg2-binary
+PyJWT
+whitenoise
