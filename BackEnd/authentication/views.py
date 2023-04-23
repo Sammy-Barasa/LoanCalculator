@@ -18,6 +18,7 @@ import jwt
 from rest_framework.exceptions import AuthenticationFailed
 # from fcm_django.models import FCMDevice
 from django.http import HttpResponseRedirect
+from authentication.models import get_tokens_for_user
 
 
 # Create your views here.
@@ -38,6 +39,7 @@ class RegisterView(generics.GenericAPIView):
 
     def post(self, request):
         user = request.data
+        # print(user)
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -45,9 +47,11 @@ class RegisterView(generics.GenericAPIView):
         # use saved email to send verifying link
         validated_user = User.objects.get(email=user_data['email'])
 
+        # print(type(validated_user))
+
         # give user a token tto verify email
-        tokens = validated_user.get_tokens_for_user()
-        # print(tokens)
+        tokens = get_tokens_for_user(validated_user)
+        print(tokens)
         accesstoken = tokens["access"]
         print("access: ", str(accesstoken))
         # link to verify API endpoint

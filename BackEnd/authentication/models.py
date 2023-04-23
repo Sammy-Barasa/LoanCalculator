@@ -52,9 +52,12 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.username}-{self.email}"
 
-    def get_tokens_for_user(self):
-        refresh = RefreshToken.for_user(self)
-        return {
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-        }
+def get_tokens_for_user(user_obj):
+    refresh = RefreshToken.for_user(user_obj)
+    refresh['user_name'] = user_obj.username
+    refresh['email'] = user_obj.email
+    print(refresh)
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }

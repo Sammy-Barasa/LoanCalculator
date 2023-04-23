@@ -1,4 +1,6 @@
 from django.core.mail import EmailMessage
+from django.conf import settings
+
 
 
 import threading
@@ -19,6 +21,7 @@ class Utils:
         email=EmailMessage(
             subject=data['subject'],
             body=data['body'],
-            to=[data['to_email'],], 
+            from_email=settings.EMAIL_HOST_USER,
+            to=[data['to_email'],],
         )
         EmailThread(email).start()
