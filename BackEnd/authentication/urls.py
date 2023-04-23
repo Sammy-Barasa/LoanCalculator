@@ -1,5 +1,5 @@
 from django.urls.conf import path
-from .views import RegisterView, VerifyEmailView, LoginView
+from authentication.views import RegisterView, VerifyEmailView, LoginView
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )

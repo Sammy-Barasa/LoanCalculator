@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-*=t)svv-v-c4mj_)2a#@y6jdc#g$w3ht+hr%8na$zbj851=1-j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["loancalculator-production.up.railway.app","localhost:8000","loancalculatorweb.netlify.app","localhost:3000"]
+ALLOWED_HOSTS = ["loancalculator-production.up.railway.app","localhost","127.0.0.1","loancalculatorweb.netlify.app","localhost:3000"]
 
 
 # Application definition

@@ -24,6 +24,18 @@ from django.http import HttpResponseRedirect
 class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
+    email_params = openapi.Parameter(
+        'email', in_=openapi.IN_QUERY, description="enter your email", type=openapi.TYPE_STRING,)
+    
+    
+    username_params = openapi.Parameter(
+        'username', in_=openapi.IN_QUERY, description="enter your username", type=openapi.TYPE_STRING,)
+    
+    password_params = openapi.Parameter(
+        'password', in_=openapi.IN_QUERY, description="enter your password", type=openapi.TYPE_STRING,)
+
+    @swagger_auto_schema(manual_parameters=[email_params,username_params,password_params])
+
     def post(self, request):
         user = request.data
         serializer = self.serializer_class(data=user)
@@ -92,6 +104,12 @@ class VerifyEmailView(generics.GenericAPIView):
 
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginViewSerializer
+    email_params = openapi.Parameter(
+        'email', in_=openapi.IN_QUERY, description="email you registered with", type=openapi.TYPE_STRING,)
+    password_params = openapi.Parameter(
+        'password', in_=openapi.IN_QUERY, description="enter your password", type=openapi.TYPE_STRING,)
+
+    @swagger_auto_schema(manual_parameters=[email_params,password_params])
 
     def post(self, request):
         # take in the request data
