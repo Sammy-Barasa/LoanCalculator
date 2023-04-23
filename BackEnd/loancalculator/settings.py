@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-*=t)svv-v-c4mj_)2a#@y6jdc#g$w3ht+hr%8na$zbj851=1-j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["loancalculator-production.up.railway.app","localhost:8000"]
 
 
 # Application definition
@@ -213,7 +213,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # django-course-header
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "https://workrecordmanager.netlify.app",
 ]
 
 CORS_ALLOW_METHODS = list(default_methods)
@@ -230,10 +229,9 @@ CORS_ALLOW_HEADERS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://workrecordmanager.netlify.app',
     'http://localhost:3000',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_WHITELIST = ['localhost:3000','workrecordmanager.netlify.app',]
+CORS_ORIGIN_WHITELIST = ['localhost:3000',]
