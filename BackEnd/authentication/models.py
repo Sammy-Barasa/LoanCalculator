@@ -43,8 +43,7 @@ class User(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
     phone = PhoneField(blank=True, help_text='Contact phone number')
     mpesa_no = PhoneField(blank=True, help_text='Mpesa phone number')
-    is_writer = models.BooleanField(default=False)
-    is_team_manager = models.BooleanField(default=False)
+    is_developer = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
