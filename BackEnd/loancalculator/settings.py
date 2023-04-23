@@ -213,7 +213,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # django-course-header
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "https://loancalculatorweb.netlify.app/",
+    "https://loancalculatorweb.netlify.app",
 ]
 
 CORS_ALLOW_METHODS = list(default_methods)
@@ -231,7 +231,7 @@ CORS_ALLOW_HEADERS = [
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
-    'https://loancalculatorweb.netlify.app/',
+    'https://loancalculatorweb.netlify.app',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
