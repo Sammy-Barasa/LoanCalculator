@@ -2,7 +2,7 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 # from django.template.loader import render_to_string
 from django.template.loader import get_template
-from django.template import Context
+
 
 
 import threading
@@ -22,7 +22,7 @@ class Utils:
     @staticmethod
     def send_email(data):
 
-        html_message = get_template("verifymail.html").render(Context({"information":data['body'],}))
+        html_message = get_template("verifymail.html").render({"information":data['body'],})
         print(html_message)
         email=EmailMessage(
             subject=data['subject'],
@@ -30,4 +30,5 @@ class Utils:
             from_email=settings.EMAIL_HOST_USER,
             to=[data['to_email'],],
         )
+        email.content_subtype = "html"
         EmailThread(email).start()
