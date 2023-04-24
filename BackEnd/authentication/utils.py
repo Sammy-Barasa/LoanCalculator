@@ -22,7 +22,7 @@ class Utils:
     @staticmethod
     def send_email(data):
 
-        html_message = get_template("verifymail.html").render({"information":data['body'],"username":data["username"]})
+        html_message = get_template("verifymail.html").render({"information":data['body'],"username":data["username"],"verifylink":data["verifylink"]})
         print(html_message)
         email=EmailMessage(
             subject=data['subject'],
