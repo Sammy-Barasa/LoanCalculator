@@ -73,7 +73,7 @@ AUTH_USER_MODEL = 'authentication.User'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'authentication','templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -208,7 +208,7 @@ SIMPLE_JWT = {
 STATIC_URL = '/staticfiles/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'authentication/static/'),
+    os.path.join(BASE_DIR, 'authentication/static'),
 )
 
 # Simplified static file serving.
