@@ -54,8 +54,6 @@ class User(AbstractUser):
 
 def get_tokens_for_user(user_obj):
     refresh = RefreshToken.for_user(user_obj)
-    refresh['user_name'] = user_obj.username
-    refresh['email'] = user_obj.email
     print(refresh)
     return {
         'refresh': str(refresh),
