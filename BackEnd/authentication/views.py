@@ -96,7 +96,7 @@ class VerifyEmailView(generics.GenericAPIView):
                 user.is_verified = True
                 user.save()
 
-                return HttpResponseRedirect("https://loancalculatorweb.netlify.app/login")
+                return HttpResponseRedirect("https://loancalculatorweb.netlify.app/signin")
             
             return Response({"message", "email is already verified"}, status=status.HTTP_200_OK)
         except jwt.exceptions.DecodeError as identifier:
