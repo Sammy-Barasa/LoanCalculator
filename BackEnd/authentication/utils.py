@@ -1,6 +1,8 @@
 from django.core.mail import EmailMessage
 from django.conf import settings
-from django.template.loader import render_to_string
+# from django.template.loader import render_to_string
+from django.template.loader import get_template
+from django.template import Context
 
 
 import threading
@@ -19,8 +21,8 @@ class EmailThread(threading.Thread):
 class Utils:
     @staticmethod
     def send_email(data):
-        html_template = 'verifymail.html'
-        html_message = render_to_string(html_template, context={"information":data['body'],})
+
+        html_message = get_template("authentication/verifymail.html").render(Context({"information":data['body'],}))
         print(html_message)
         email=EmailMessage(
             subject=data['subject'],
