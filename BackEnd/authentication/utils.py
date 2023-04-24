@@ -20,11 +20,11 @@ class Utils:
     @staticmethod
     def send_email(data):
         html_template = 'verifymail.html'
-        html_message = render_to_string(html_template, context=data)
+        html_message = render_to_string(html_template, context={"information":data['body'],})
         print(html_message)
         email=EmailMessage(
             subject=data['subject'],
-            body=data['body'],
+            body=html_message,
             from_email=settings.EMAIL_HOST_USER,
             to=[data['to_email'],],
         )
