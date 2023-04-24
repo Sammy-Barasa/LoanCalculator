@@ -65,8 +65,8 @@ class RegisterView(generics.GenericAPIView):
         # constract the message
         subject = "Verify your Email"
         body = "you are receiving this email, because you registered on LoanInterestCalculator App. We want to verify your email.use this link to do so.\n" + verifylink
-        data = {'subject': subject, 'body': body,'username':validated_user.username,'link':verifylink,
-                'to_email': validated_user.email}
+        data = {'subject': subject, 'body': body,'username':validated_user.username,
+                'verifylink':verifylink,'to_email': validated_user.email}
         try:
             Utils.send_email(data=data)
             return Response(data={"message":"Account has been created"}, status=status.HTTP_201_CREATED)
