@@ -1,9 +1,10 @@
 from django.core.mail import EmailMessage
 from django.conf import settings
-
+from django.template.loader import render_to_string
 
 
 import threading
+
 
 
 class EmailThread(threading.Thread):
@@ -18,6 +19,9 @@ class EmailThread(threading.Thread):
 class Utils:
     @staticmethod
     def send_email(data):
+        html_template = 'verifymail.html'
+        html_message = render_to_string(html_template, context=data)
+        print(html_message)
         email=EmailMessage(
             subject=data['subject'],
             body=data['body'],
