@@ -99,7 +99,8 @@ class VerifyEmailView(generics.GenericAPIView):
                 return HttpResponseRedirect("https://loancalculatorweb.netlify.app/login")
             return Response({"message", "email is already verified"}, status=status.HTTP_200_OK)
         except jwt.exceptions.DecodeError as identifier:
-            return Response({"error": identifier}, status=status.HTTP_400_BAD_REQUEST)
+            print(identifier)
+            return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
         except jwt.exceptions.InvalidSignatureError as identifier:
             return Response({"error": "token signature does not match the one provided as part of the token"}, status=status.HTTP_400_BAD_REQUEST)
         except jwt.exceptions.ExpiredSignatureError as identifier:
