@@ -88,7 +88,7 @@ class VerifyEmailView(generics.GenericAPIView):
         tokens = request.GET.get('token')
         print(tokens)
         try:
-            payload = jwt.decode(tokens, os.environ.get("JWT_SECRET"))
+            payload = jwt.decode(tokens, os.environ.get("JWT_SECRET"),algorithms=['HS256'])
             print(payload)
             user = User.objects.get(id=payload['user_id'])
             if not user.is_verified:
