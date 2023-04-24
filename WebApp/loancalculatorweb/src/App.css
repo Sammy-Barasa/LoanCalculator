@@ -14,16 +14,45 @@
 }
 
 .App-header {
-  background-color: #f5d5f5;
-  min-height: 5vh;
+  background-color: #658dfc;
+  height: 8vh;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: left;
+  justify-content: space-between;
   font-size: calc(10px + 2vmin);
   color: rgb(36, 25, 37);
   
+  
 }
+
+.App-header div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: calc(5px + 2vmin);
+  color: rgb(231, 228, 231);
+  
+  
+}
+
+.App-header a{
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+ 
+}
+
+.App-header a:hover {
+  background-color: rgb(87, 178, 252);
+  border-radius: 10px;
+}
+.App-header div div{
+  /* background-color: #f5d5f5; */
+ margin: 10px;
+ padding: 20px;
+ color: rgb(231, 228, 231);
+}
+
 .App-title{
   margin-left: 50px;
 }
@@ -32,6 +61,28 @@
   color: #61dafb;
 }
 
+.main {
+  background-color: #faf6fa;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: calc(10px + 2vmin);
+  color: rgb(36, 25, 37);
+  
+}
+
+footer{
+  background-color: #f5d5f5;
+  min-height: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(36, 25, 37);
+}
 /* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
