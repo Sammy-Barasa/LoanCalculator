@@ -27,8 +27,8 @@ firebase=pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
 # email_val = config['FIREBASE_EMAIL']
 # pass_val = config['FIREBASE_PASSWORD']
-email_val = os.environ.get('FIREBASE_EMAIL')
-pass_val = os.environ.get('FIREBASE_PASSWORD')
+email_val = os.environ.get("FIREBASE_EMAIL")
+pass_val = os.environ.get("FIREBASE_PASSWORD")
 user = auth.sign_in_with_email_and_password(email=email_val,password=pass_val )
 user = auth.refresh(user['refreshToken'])
 database=firebase.database()
@@ -72,7 +72,7 @@ class LoanProductEvaluateView(generics.GenericAPIView):
     
 
     def post(self, request,**kwargs):
-        # loans = [{"bank":"kcb","flat_rate":20,"reducing_rate":18},{"bank":"coop","flat_rate":22,"reducing_rate":20}]
+        # id=[], amount, start payment date,payment frequency,
         print(request.data)
         database.child("EvaluationData").push(request.data, user['idToken'])
         return Response(request.data, status=status.HTTP_200_OK)
