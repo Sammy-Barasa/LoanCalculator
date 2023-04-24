@@ -3,9 +3,11 @@ from rest_framework import status, generics
 from interestcalculator.serializers import BankSerializer, LoanCreateSerializer, LoanProductSerializer,LoanProductEvaluateSerializer
 from interestcalculator.models import Bank, LoanProduct
 import pyrebase
-from dotenv import dotenv_values
-config = dotenv_values(".env")
-print(config)
+import os
+
+# from dotenv import dotenv_values
+# config = dotenv_values(".env")
+# print(config)
 # Create your views here.
 
 
@@ -23,8 +25,10 @@ firebaseConfig = {
 
 firebase=pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
-email_val = config['FIREBASE_EMAIL']
-pass_val = config['FIREBASE_PASSWORD']
+# email_val = config['FIREBASE_EMAIL']
+# pass_val = config['FIREBASE_PASSWORD']
+email_val = os.environ.get('FIREBASE_EMAIL')
+pass_val = os.environ.get('FIREBASE_PASSWORD')
 user = auth.sign_in_with_email_and_password(email=email_val,password=pass_val )
 user = auth.refresh(user['refreshToken'])
 database=firebase.database()
