@@ -64,9 +64,8 @@ class RegisterView(generics.GenericAPIView):
         print(verifylink)
         # constract the message
         subject = "Verify your Email"
-        body = "Hi, "+validated_user.username + \
-            ",WorkRecordManager wants to verify your email.use this link to do so.\n" + verifylink
-        data = {'subject': subject, 'body': body,
+        body = "you are receiving this email, because you registered on LoanInterestCalculator App. We want to verify your email.use this link to do so.\n" + verifylink
+        data = {'subject': subject, 'body': body,'username':validated_user.username,'link':verifylink,
                 'to_email': validated_user.email}
         try:
             Utils.send_email(data=data)
