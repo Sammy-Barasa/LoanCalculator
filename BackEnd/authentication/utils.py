@@ -27,7 +27,7 @@ class Utils:
         email=EmailMessage(
             subject=data['subject'],
             body=html_message,
-            from_email="LoanInterestCalculatorApp",
+            from_email=settings.EMAIL_HOST_USER,
             to=[data['to_email'],],
         )
         email.content_subtype = "html"
