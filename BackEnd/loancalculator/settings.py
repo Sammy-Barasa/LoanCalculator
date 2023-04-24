@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-*=t)svv-v-c4mj_)2a#@y6jdc#g$w3ht+hr%8na$zbj851=1-j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["loancalculator-production.up.railway.app","localhost","127.0.0.1","loancalculatorweb.netlify.app","localhost:3000"]
+ALLOWED_HOSTS = ["loancalculator-production.up.railway.app","localhost","127.0.0.1","loancalculatorweb.netlify.app","localhost:3000","loancalculator.zeabur.app"]
 
 
 # Application definition
@@ -241,6 +241,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "https://loancalculatorweb.netlify.app",
     "https://loancalculator-production.up.railway.app",
+    "https://loancalculator.zeabur.app",
 ]
 
 CORS_ALLOW_METHODS = list(default_methods)
@@ -260,8 +261,9 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'https://loancalculatorweb.netlify.app',
     'https://loancalculator-production.up.railway.app',
+    'https://loancalculator.zeabur.app',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_WHITELIST = ['localhost:3000','loancalculatorweb.netlify.app','loancalculator-production.up.railway.app']
+CORS_ORIGIN_WHITELIST = ['localhost:3000','loancalculatorweb.netlify.app','loancalculator-production.up.railway.app','loancalculator.zeabur.app']
