@@ -249,7 +249,6 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
-    'Access-Control-Allow-Headers',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
