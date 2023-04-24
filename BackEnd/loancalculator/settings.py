@@ -14,6 +14,10 @@ from corsheaders.defaults import default_methods
 from pathlib import Path
 from datetime import timedelta
 
+# from dotenv import dotenv_values
+# config = dotenv_values(".env")
+# print(config)
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,7 +47,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'corsheaders',
-    'authentication',
+    'authentication.apps.AuthenticationConfig',
+    'interestcalculator.apps.InterestcalculatorConfig',
     'rest_framework_simplejwt',
 ]
 
