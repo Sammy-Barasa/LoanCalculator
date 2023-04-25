@@ -29,9 +29,9 @@ function App() {
           <Route path="/api" element={<ApiPage/>}/>
         </Routes>
       </div>
-      <footer>
+      {/* <footer>
         <p>@loancalulator</p>
-      </footer>
+      </footer> */}
     </div>
   );
 }

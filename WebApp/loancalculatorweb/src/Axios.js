@@ -14,7 +14,8 @@ const axiosFetch = ()=>{
         // "https://loancalculator-production.up.railway.app/"
         // http://127.0.0.1:8000
         // https://loancalculator-production.up.railway.app/
-        baseURL:"https://loancalculator-production.up.railway.app/",
+        // http://loancalculator.zeabur.app/calc/banks/
+        baseURL:"https://loancalculator.zeabur.app/",
         // credentials: "same-origin",
         headers:headers,
     })
