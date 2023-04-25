@@ -35,7 +35,7 @@ class LoanProductSerializer(serializers.ModelSerializer):
         model = LoanProduct
 
         fields = ['id','loan_name','bank','flat_rate','reducing_balance_rate','processing_fees','exercise_duty','legal_fees']
-        read_only_fields = ['id','bank','processing_fees','exercise_duty','legal_fees']
+        read_only_fields = ['id','processing_fees','exercise_duty','legal_fees']
         
         # validate
 
@@ -44,7 +44,8 @@ class LoanProductSerializer(serializers.ModelSerializer):
 
         # create
         def create(self, validated_data):
-            loanproduct = LoanProduct.objects.create(from_bank=Bank.object.get(id=self.context["id"]),**validated_data)
+            bank_id = validated_data.pop('bank')
+            loanproduct = LoanProduct.objects.create(from_bank=int(bank_id),**validated_data)
             return loanproduct
         # update
         def update(self, instance, validated_data):
@@ -99,12 +100,12 @@ class LoanGetSerializer(serializers.ModelSerializer):
 
 class LoanProductEvaluateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = LoanProduct
+        model = Loan
 
         # fields = ['id','loan_name','bank','flat_rate','reducing_balance_rate','processing_fees','exercise_duty','legal_fees']
         # read_only_fields = ['id','bank','processing_fees','exercise_duty','legal_fees']
         
-        fields = ['id']
+        fields = ['id','loan_product','amount','payment_frequency','loan_period','start_date']
         # read_only_fields = ['id','bank','processing_fees','exercise_duty','legal_fees']
         # validate
 
