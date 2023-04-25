@@ -1,15 +1,13 @@
 import React from 'react'
-import { Button, Form, Message } from 'semantic-ui-react'
+import { Form, Message } from 'semantic-ui-react'
 
-const FormSuccess = ({responsestatusText}) => (
+const FormSuccess = ({responsestatusText,detail}) => (
   <Form success>
-    <Form.Input label='Email' placeholder='joe@schmoe.com' />
     <Message
       success
       header={responsestatusText}
-      content="login Successfull"
+      content={detail}
     />
-    <Button>Submit</Button>
   </Form>
 )
 

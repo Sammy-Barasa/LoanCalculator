@@ -17,7 +17,7 @@ export const LoginUser = (userData,setData,setError)=> {
     axiosFetch().post('auth/login',userData)
     .then((response)=>{
         console.log(response.data)
-        setData(response.data)
+        setData(response)
         // console.log(response.status)
     }).catch((error)=>{
         console.log(error)

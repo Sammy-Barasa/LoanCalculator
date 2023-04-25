@@ -1,14 +1,25 @@
 import axios from "axios";
-// import Cookies from "js-cookie";
+import Cookies from "js-cookie";
+
 
 
 const axiosFetch = ()=>{
+    const userToken = localStorage.getItem("token")
 
     let headers ={
+        "Authorization":"",
+        "X-CSRFToken":"",
         'X-Requested-With': 'XMLHttpRequest',
         }
 
-
+        const csrftoken = Cookies.get("csrftoken")
+    
+        if(userToken){
+            headers["Authorization"] = `Bearer ${userToken}`
+        }
+        if(csrftoken){
+            headers["X-CSRFToken"] = `${csrftoken}`
+        }
     // console.log(headers)
     const axiosInstance = axios.create({
         // "https://loancalculator-production.up.railway.app/"
