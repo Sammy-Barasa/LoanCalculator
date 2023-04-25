@@ -65,16 +65,15 @@ export const CreateLoan= (LoanData,setLoading)=> {
 }
 
 // http://loancalculator.zeabur.app/calc/loanproducts/create/
-export const GetLoanProduct= (setLoading)=> {
-    setLoading(true)
+export const GetLoanProduct= (setData)=> {
     axiosFetch().post('calc/loanproducts')
     .then((response)=>{
         console.log(response.data)
-        setLoading(false)
+        setData(response.data)
     })
     .catch((error)=>{
         console.log(error) 
-        setLoading(false)
+        setData(error)
     })
 }
 

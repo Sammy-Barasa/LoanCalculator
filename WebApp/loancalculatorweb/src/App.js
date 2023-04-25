@@ -12,7 +12,7 @@ import LandingPage from './pages/LandingPage';
 
 
 function App() {
-  const [setuset, setUser] = useState(null)
+  const [setuser, setUser] = useState(null)
   const location = useLocation();
   console.log(location, " useLocation Hook");
   useEffect(()=>{
@@ -29,9 +29,9 @@ function App() {
           <NavLink to="/">Loan Calculator</NavLink>
         </p>
         <div>
-          {setuset?"":<div><Link to="/signin">Login</Link></div>}
-          {setuset?"":<div><Link to="/signup">SignUp</Link></div>}
-          <div><Link to="/api">API</Link></div>
+          {setuser?"":<div><Link to="/signin">Login</Link></div>}
+          {setuser?"":<div><Link to="/signup">SignUp</Link></div>}
+          <div><Link to="/api" state={{setuser:setuser}}>API</Link></div>
         </div>
       </header>
       <div className="main">
