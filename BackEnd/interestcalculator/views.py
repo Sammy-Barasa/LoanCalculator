@@ -163,6 +163,23 @@ class LoanProductEvaluateView(generics.GenericAPIView):
 
                 instalment_table.append(installment_plan)
             # print(instalment_table) 
+
+        # elif(type_interest=="reduced"):
+        #     [temporary_installment_rate.append((possible_total_payable[i]-principle)/(number_of_instalments)) for i in range(0, len(products))]
+        #     [temporary_installment_amount.append(round((possible_total_payable[i])/(number_of_instalments),2)) for i in range(0, len(products))]
+        #     instalment_table = []
+        #     total_loan= 0
+        #     for i in range(0, len(products)):
+        #         installment_plan = {}
+        #         total_loan= possible_total_payable[i]
+        #         for j in range(1,(number_of_instalments+1)):
+        #             installment_plan[str(j)] = {"loan":total_loan,"installment":temporary_installment_amount[i],"remaining":(round(total_loan-temporary_installment_amount[i],2))}
+                
+        #             total_loan = total_loan-temporary_installment_amount[i]
+
+        #         instalment_table.append(installment_plan)
+
+        
         results = {"principle":principle,"payment_frequency":payment_frequency,"loan_period":loan_period,"type_interest":type_interest,"number":len(products),"total_payable":possible_total_payable,"interest":interest_rates,"instalment_table":instalment_table}      
         print(results)
         database.child("EvaluationData").push(results, user['idToken'])

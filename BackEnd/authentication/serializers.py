@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import get_user_model
+from authentication.models import get_tokens_for_user
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -54,8 +55,8 @@ class LoginViewSerializer(serializers.Serializer):
     def get_tokens(self, obj):
         user = User.objects.get(email=obj['email'])
         return{
-            "refresh": user.get_tokens_for_user()['refresh'],
-            "access": user.get_tokens_for_user()['access']
+            "refresh": get_tokens_for_user(user)['refresh'],
+            "access": get_tokens_for_user(user)['access']
         }
 
     class Meta:
@@ -73,7 +74,8 @@ class LoginViewSerializer(serializers.Serializer):
         if not authenticated_user:
             raise AuthenticationFailed('Invalid credentials, try again')
         if not authenticated_user.is_verified:
-            return AuthenticationFailed('Email has not been verified')
+            print("email not verified")
+            raise AuthenticationFailed('Email has not been verified')
         if not authenticated_user.is_active:
             raise AuthenticationFailed('Account disabled, contact admin')
 
@@ -86,6 +88,6 @@ class LoginViewSerializer(serializers.Serializer):
             "id": authenticated_user.id,
             "username": authenticated_user.username,
             "email": authenticated_user.email,
-            "tokens": authenticated_user.get_tokens_for_user,
+            "tokens": get_tokens_for_user(authenticated_user),
         }
         return data
