@@ -105,7 +105,7 @@ class LoanProductEvaluateSerializer(serializers.ModelSerializer):
         # fields = ['id','loan_name','bank','flat_rate','reducing_balance_rate','processing_fees','exercise_duty','legal_fees']
         # read_only_fields = ['id','bank','processing_fees','exercise_duty','legal_fees']
         
-        fields = ['id','loan_product','amount','payment_frequency','loan_period','start_date']
+        fields = ['id','loan_product','amount','payment_frequency','loan_period','start_date','interest_type']
         # read_only_fields = ['id','bank','processing_fees','exercise_duty','legal_fees']
         # validate
 
