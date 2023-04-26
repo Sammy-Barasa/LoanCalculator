@@ -36,12 +36,16 @@ form?.password!==form?.confirmpassword||!form?.email?.length || !form.password |
                 <Form success warning onSubmit={handleRegister}> 
                 
                     {errorMessage?FormError(errorMessage):""}
-                  
+                    <Form.Group widths='equal'>
                         <Form.Input type="Email" name='email' label="Email" autofocus required placeholder='Enter your email' value={form.email||""} onChange={onchange}/>
                         <Form.Input type="text" name='username' label='Username' required  placeholder='Enter your username' value={form.username||""} onChange={onchange}/>
+                      </Form.Group> 
+                      <Form.Group widths='equal'>
                         <Form.Input type='Password' name='password' label='Password'required placeholder='Enter your password' value={form.password||""} onChange={onchange}/>
                         <Form.Input type='Password' name='confirmpassword' label='Confirm password' required placeholder='Confirm your password' value={form.confirmpassword||""} onChange={onchange}/>
+                        </Form.Group>
                     <Button disabled={registerFormInvalid} loading={loading} fluid primary type='submit'>Register</Button>
+                    <p></p>
                 </Form>
         </div>
   )

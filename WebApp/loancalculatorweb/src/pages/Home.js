@@ -13,7 +13,7 @@ function Home() {
         <h3>Loan Products</h3>
         <ul>
           {loanproducts.map((product,index)=>{
-            return(<li key={index}>{product}</li>)
+            return(<li key={index}>{product.loan_name}</li>)
           })}
         </ul>
         

@@ -2,7 +2,7 @@ import axiosFetch from '../Axios'
 
 export const RegisterUser = (userData,setData,setError)=> {
     
-    axiosFetch().post('auth/register',userData)
+    axiosFetch().post('auth/register/',userData)
     .then((response)=>{
         console.log(response)
         setData(response)
@@ -14,7 +14,7 @@ export const RegisterUser = (userData,setData,setError)=> {
 
 export const LoginUser = (userData,setData,setError)=> {
 
-    axiosFetch().post('auth/login',userData)
+    axiosFetch().post('auth/login/',userData)
     .then((response)=>{
         console.log(response.data)
         setData(response)
@@ -28,7 +28,7 @@ export const LoginUser = (userData,setData,setError)=> {
 
 export const CreateBank = (BankData)=> {
 
-    axiosFetch().post('calc/banks',BankData)
+    axiosFetch().post('calc/banks/',BankData)
     .then((response)=>{
         console.log(response.data)
     
@@ -40,7 +40,7 @@ export const CreateBank = (BankData)=> {
 
 export const GetBank = (setLoading)=> {
     setLoading(true)
-    axiosFetch().get('calc/banks')
+    axiosFetch().get('calc/banks/')
     .then((response)=>{
         console.log(response.data)
         setLoading(false)
@@ -53,7 +53,7 @@ export const GetBank = (setLoading)=> {
 
 export const CreateLoan= (LoanData,setLoading)=> {
     setLoading(true)
-    axiosFetch().post('calc/loans/create',LoanData)
+    axiosFetch().post('calc/loans/create/',LoanData)
     .then((response)=>{
         console.log(response.data)
         setLoading(false)
@@ -66,7 +66,7 @@ export const CreateLoan= (LoanData,setLoading)=> {
 
 // http://loancalculator.zeabur.app/calc/loanproducts/create/
 export const GetLoanProduct= (setData)=> {
-    axiosFetch().post('calc/loanproducts')
+    axiosFetch().get('calc/loanproducts/')
     .then((response)=>{
         console.log(response.data)
         setData(response.data)
@@ -79,7 +79,7 @@ export const GetLoanProduct= (setData)=> {
 
 export const CreateLoanProduct= (LoanData,setLoading)=> {
 
-    axiosFetch().post('calc/loans/create',LoanData)
+    axiosFetch().post('calc/loans/create/',LoanData)
     .then((response)=>{
         console.log(response.data)
     
@@ -93,7 +93,7 @@ export const CreateLoanProduct= (LoanData,setLoading)=> {
 
 export const EvaluateLoanProduct= (LoanProductData,setLoading)=> {
     setLoading(true)
-    axiosFetch().post('calc/evaluate',LoanProductData)
+    axiosFetch().post('calc/evaluate/',LoanProductData)
     .then((response)=>{
         console.log(response.data)
         setLoading(false)

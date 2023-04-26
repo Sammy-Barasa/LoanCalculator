@@ -9,6 +9,7 @@ import LoansPage from './pages/LoansPage';
 import ApiPage from './pages/ApiPage';
 import { useLocation } from "react-router-dom";
 import LandingPage from './pages/LandingPage';
+import Admin from './pages/Admin';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/loans" element={<LoansPage/>}/>
           <Route path="/api" element={<ApiPage/>}/>
+          <Route path="/admin" element={<Admin/>}/>
         </Routes>
       </div>
       {/* <footer>

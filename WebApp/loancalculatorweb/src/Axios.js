@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 
 
 const axiosFetch = ()=>{
-    const userToken = localStorage.getItem("token")
+    
 
     let headers ={
         "Authorization":"",
@@ -12,14 +12,7 @@ const axiosFetch = ()=>{
         'X-Requested-With': 'XMLHttpRequest',
         }
 
-        const csrftoken = Cookies.get("csrftoken")
-    
-        if(userToken){
-            headers["Authorization"] = `Bearer ${userToken}`
-        }
-        if(csrftoken){
-            headers["X-CSRFToken"] = `${csrftoken}`
-        }
+        
     // console.log(headers)
     const axiosInstance = axios.create({
         // "https://loancalculator-production.up.railway.app/"
@@ -31,6 +24,27 @@ const axiosFetch = ()=>{
         headers:headers,
     })
     axiosInstance.defaults.headers.common.accept = 'application/json'
+    axiosInstance.interceptors.request.use(function (config) {
+        // Do something before request is sent
+        console.log(config)
+        console.log(config.url)
+        if(!config.url.includes("register")){
+            const userToken = localStorage.getItem("token")
+            const csrftoken = Cookies.get("csrftoken")
+    
+            if(userToken){
+                headers["Authorization"] = `Bearer ${userToken}`
+            }
+            if(csrftoken){
+                headers["X-CSRFToken"] = `${csrftoken}`
+            }
+        }
+        console.log(config)
+        return config;
+      }, function (error) {
+        // Do something with request error
+        return Promise.reject(error);
+      });
     return  axiosInstance
 }
 
