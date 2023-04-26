@@ -117,6 +117,27 @@ footer{
   height:fit-content;
   margin-top: 10%;
 }
+
+.admin-title{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.list-content-admin{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color:rgb(35, 24, 59) ;
+}
+
+.App-home{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
 /* .input-block{
   display: flex;
   flex-direction: column;

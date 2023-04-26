@@ -33,10 +33,10 @@ const axiosFetch = ()=>{
             const csrftoken = Cookies.get("csrftoken")
     
             if(userToken){
-                headers["Authorization"] = `Bearer ${userToken}`
+                config.headers["Authorization"] = `Bearer ${userToken}`
             }
             if(csrftoken){
-                headers["X-CSRFToken"] = `${csrftoken}`
+                config.headers["X-CSRFToken"] = `${csrftoken}`
             }
         }
         console.log(config)

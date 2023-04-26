@@ -22,7 +22,7 @@ function Admin() {
         });
     
         setEvaluationData(()=>(valuationvals))
-      },[])
+      },[EvaluationData?.length])
   return (
     <div>
         <h3>Admin</h3>
@@ -32,7 +32,7 @@ function Admin() {
         </div>
         <List divided relaxed>
           <List.Header>
-                <div className='tab-bar-1'> 
+                <div className='admin-title'> 
                   <p>Principle  Amount</p>
                   <p>Payment Frequency</p>
                   <p>Loan Period Yrs</p>
@@ -57,7 +57,7 @@ function Admin() {
             return(
               <List.Item key={index}>
                 <List.Content>
-                <div className='tab-bar-content'> 
+                <div className='list-content-admin'> 
                   <p>{datalog.principle}</p>
                   <p>{datalog.payment_frequency}</p>
                   <p>{datalog.loan_period}</p>
