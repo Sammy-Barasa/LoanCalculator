@@ -5,8 +5,9 @@ const FormError = (errorMessage) => (
   <Form error>
     <Message
       error
-      header={errorMessage.response?.statusText||errorMessage.message}
-      content={errorMessage.response?.data||errorMessage.stack}
+      // header={errorMessage.message}
+      header={errorMessage.response?.data}
+      content={errorMessage.response?.data}
     />
   </Form>
 )

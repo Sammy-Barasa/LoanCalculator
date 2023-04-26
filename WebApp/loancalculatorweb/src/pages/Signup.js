@@ -39,7 +39,7 @@ function Signup() {
   setForm({ ...form, [e.target.name]: e.target.value });
   }; 
 const registerFormInvalid =
-form?.password!==form?.confirmpassword||!form?.email?.length || !form.password || !form.password.length;
+form?.password!==form?.confirmpassword||!form?.email?.length || !form.password || !form.password.length>=6;
   return (
     <div className='register-form'>
             <Icon.Group size="large">
