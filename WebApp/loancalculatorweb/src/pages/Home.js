@@ -18,7 +18,7 @@ const options2 = [
 function Home() {
   const [loanproducts,setLoanProducts]=useState([])
   const [form, setFormData]=useState({})
-  const [timevalue, setTimeValue]=useState('m')
+  const [timevalue, setTimeValue]=useState("m")
 
   useEffect(()=>{
     GetLoanProduct(setLoanProducts)
@@ -32,9 +32,9 @@ function Home() {
     console.log(form)
   }
 
-  const handleRadioChange = (e) =>{ 
+  const handleRadioChange = (e,{value}) =>{ 
     e.preventDefault()
-    setTimeValue(e.target.value)
+    setTimeValue(value)
     console.log(timevalue)
   }
 
@@ -63,15 +63,7 @@ function Home() {
             options={options}
             placeholder='interest type'
             required
-            value={form.interest_type||""}
-            onChange={(e)=>{
-              e.preventDefault()
-              setFormData((form)=>{
-              return{
-              ...form,
-              [e.target.name]:e.target.value
-              }
-          })}}
+            onChange={handleChange}
           />
           </Form.Group>
           <Form.Group widths='equal'>
@@ -79,14 +71,16 @@ function Home() {
         
             <Form.Radio
               label='years'
-              value='y'
+              name='radioGroup'
+              value="y"
               checked={timevalue==='y'}
               onChange={handleRadioChange}
             />
             <Form.Radio
               label='months'
-              value='m'
-              checked={timevalue==='m'}
+              name='radioGroup'
+              value="m"
+              checked={timevalue ==="m"}
               onChange={handleRadioChange}
             />
             <Form.Select
@@ -94,8 +88,7 @@ function Home() {
               label='Payment frequency'
               options={options2}
               placeholder='instalment payment frequency'
-              value={form.payment_frequency||""}
-              // onChange={handleChange}
+              onChange={handleChange}
               required
             />
          

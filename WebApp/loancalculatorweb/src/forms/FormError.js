@@ -5,9 +5,9 @@ const FormError = (errorMessage) => (
   <Form error>
     <Message
       error
-      // header={errorMessage.message}
-      header={errorMessage.response?.data}
-      content={errorMessage.response?.data}
+      header={errorMessage.message}
+      // header={errorMessage.response?.data}
+      content={<pre>{JSON.stringify(errorMessage.response?.data,null, 2)}</pre>}
     />
   </Form>
 )

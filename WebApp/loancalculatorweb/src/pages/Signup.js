@@ -16,11 +16,16 @@ function Signup() {
     if (data?.status === 201) {
       console.log("here")
       console.log(data)
+      setForm({});
       setSuccess({"responsestatusText":"Signup is successful","detail":`${data.data.message}. Check your email for verification`})
       setTimeout(()=>{
-      
+      setData({})
       },2000)
-
+    }else{
+      setTimeout(()=>{
+        setForm({});
+        setError({})
+        },2000)
     }
     
 }, [data])
@@ -31,15 +36,14 @@ function Signup() {
     setLoading(true)
     RegisterUser(form,setData,setError);
     setLoading(false)
-    setForm({});
-    console.log(data)
+    
   }
 
   const onchange = (e) => {
   setForm({ ...form, [e.target.name]: e.target.value });
   }; 
 const registerFormInvalid =
-form?.password!==form?.confirmpassword||!form?.email?.length || !form.password || !form.password.length>=6;
+form?.password!==form?.confirmpassword||!form?.email?.length || !form.password || !form.password.length;
   return (
     <div className='register-form'>
             <Icon.Group size="large">
