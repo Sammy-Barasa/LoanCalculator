@@ -10,6 +10,7 @@ import ApiPage from './pages/ApiPage';
 import { useLocation } from "react-router-dom";
 import LandingPage from './pages/LandingPage';
 import Admin from './pages/Admin';
+import ResultPage from './pages/ResultPage';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
           <Route path="/loans" element={<LoansPage/>}/>
           <Route path="/api" element={<ApiPage/>}/>
           <Route path="/admin" element={<Admin/>}/>
+          <Route path="/results" element={<ResultPage/>}/>
         </Routes>
       </div>
       {/* <footer>
