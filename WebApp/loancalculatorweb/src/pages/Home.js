@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react'
 import {GetLoanProduct} from "../api/api"
-import { Grid, Card, Label, Form,List, Segment } from 'semantic-ui-react'
+import { Grid, Card, Label, Form,List, Segment,Menu,Icon } from 'semantic-ui-react'
 
 const options = [
   { key: 'f', text: 'Flat rate', value: 'flat' },
@@ -19,6 +19,7 @@ function Home() {
   const [loanproducts,setLoanProducts]=useState([])
   const [form, setFormData]=useState({})
   const [timevalue, setTimeValue]=useState("m")
+  const [selectedproducts,setSelectedProducts]=useState([])
 
   useEffect(()=>{
     GetLoanProduct(setLoanProducts)
@@ -38,6 +39,34 @@ function Home() {
     console.log(timevalue)
   }
 
+  const handleSelect = (e,{value}) =>{ 
+    e.preventDefault()
+    console.log(value)
+
+    const len_in = selectedproducts.length
+    let newnum = []
+    console.log(selectedproducts)
+    newnum = selectedproducts.filter((num) => num !== value);
+
+    let len_after = newnum.length
+    console.log(newnum)
+    if (len_in === len_after) {
+      // If number is already present, remove it
+      console.log("not there")
+      setSelectedProducts([...selectedproducts,value])
+      console.log("added")
+      // console.log(selectedproducts)
+      
+    } else {
+      console.log("already there")
+      setSelectedProducts(selectedproducts.filter((num) => num !== value))
+      console.log("removed")
+      // console.log(selectedproducts)
+
+    }
+    
+
+}
   // const {time_in} = timevalue
 //   {
 //     "loan_product": [
@@ -49,6 +78,7 @@ function Home() {
 //     "start_date": "2023-25-4",
 //     "interest_type": "flat"
 // }
+
   return (
     <div className='App-home'>
         <h4>Entere your loan details here</h4>
@@ -93,21 +123,38 @@ function Home() {
             />
          
         </Form.Group>
+        <h4>Select loan products for evaluation </h4>
+        <div>
+          <Menu compact>
+            <Menu.Item as='a'>
+              <Icon name='mail' /> Selected products
+              <Label color='green' floating>
+                {selectedproducts.length}
+              </Label>
+            </Menu.Item>
+          <Menu.Item as='a'>
+            <Icon name='users' /> Serial Numbers of selected products
+            <Label color='teal' floating>
+          {`${selectedproducts}`}
+          </Label>
+          </Menu.Item>
+          </Menu>
+        </div>
         
-        <Form.Button>Submit</Form.Button>
+        <Form.Button type='button' fluid>Evaluate Prospective Loans</Form.Button>
       </Form>
     </div>
         <h4>Loan Products Avaiable</h4>
         <List horizontal>
           {loanproducts.map((product,index)=>{
-            return(<List.Item key={index}>
+              return(<List.Item key={index} value={product.id} onClick={handleSelect}>
               <Grid>
                 <Grid.Column>
                   <Segment raised>
                     <Label as='a' color='red' ribbon>
                       {product.loan_name}
                     </Label>
-                    <span>Loan Product Details</span>
+                    <span>{`Loan Product Detail  SNo. ${product.id}`}</span>
 
                     {/* <Image src='/images/wireframe/paragraph.png' /> */}
 

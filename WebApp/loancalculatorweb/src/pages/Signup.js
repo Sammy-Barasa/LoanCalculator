@@ -21,12 +21,8 @@ function Signup() {
       setTimeout(()=>{
       setData({})
       },2000)
-    }else{
-      setTimeout(()=>{
-        setForm({});
-        setError({})
-        },2000)
     }
+    
     
 }, [data])
 

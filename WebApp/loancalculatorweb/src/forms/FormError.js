@@ -7,7 +7,7 @@ const FormError = (errorMessage) => (
       error
       header={errorMessage.message}
       // header={errorMessage.response?.data}
-      content={<pre>{JSON.stringify(errorMessage.response?.data,null, 2)}</pre>}
+      content={errorMessage.message?(<pre>{JSON.stringify(errorMessage.response?.data,null, 2)}</pre>):("")}
     />
   </Form>
 )
