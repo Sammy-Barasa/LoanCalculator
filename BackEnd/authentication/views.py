@@ -21,7 +21,13 @@ from django.http import HttpResponseRedirect
 from authentication.models import get_tokens_for_user
 
 
-# Create your views here.
+# Create your views here
+# from django.utils.decorators import method_decorator
+
+# from django.utils.decorators import method_decorator
+# from django.views.decorators.csrf import csrf_exempt
+
+# @method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 

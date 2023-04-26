@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework import status, generics
-from interestcalculator.serializers import BankSerializer, LoanCreateSerializer, LoanProductSerializer,LoanProductEvaluateSerializer
+from interestcalculator.serializers import BankSerializer, LoanCreateSerializer, LoanProductSerializer,LoanProductGetSerializer,LoanProductEvaluateSerializer
 from interestcalculator.models import Bank, LoanProduct
 import pyrebase
 from rest_framework.exceptions import ValidationError
@@ -80,7 +80,7 @@ class LoanCreateView(generics.GenericAPIView):
 
     
 class LoanProductGetView(generics.GenericAPIView):
-    serializer_class = LoanProductSerializer
+    serializer_class = LoanProductGetSerializer
     queryset = LoanProduct.objects.all()
 
     def get(self, request,**kwargs):
