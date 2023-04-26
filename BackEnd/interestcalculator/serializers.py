@@ -54,7 +54,20 @@ class LoanProductSerializer(serializers.ModelSerializer):
             instance.reducing_balance_rate = validated_data.get('reducing_balance_rate', instance.reducing_balance_rate)
             instance.save()
             return instance
-        
+
+class LoanProductGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LoanProduct
+
+        fields = ['id','loan_name','bank','flat_rate','reducing_balance_rate','processing_fees','exercise_duty','legal_fees']
+        read_only_fields = ['id','processing_fees','exercise_duty','legal_fees']
+        depth = 1
+        # validate
+
+        def validate(self, attr):
+            return attr
+
+
 
 class LoanCreateSerializer(serializers.ModelSerializer):
     class Meta:
