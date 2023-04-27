@@ -6,7 +6,8 @@ import pyrebase
 from rest_framework.exceptions import ValidationError
 from interestcalculator.serializers import LoanProductSerializer
 from interestcalculator.models import LoanProduct
-from datetime import date
+import datetime
+from dateutil.relativedelta import relativedelta
 # import os
 
 
@@ -124,8 +125,15 @@ class LoanProductEvaluateView(generics.GenericAPIView):
         payment_frequency = data["payment_frequency"]
         loan_period = data["loan_period"]
         type_interest = data["interest_type"]
+        payment_starting_date = data["payment_starting_date"]
+        payment_starting_date=payment_starting_date.split("-")
+        for i in range(0,len(payment_starting_date)):
+            payment_starting_date[i]=int(payment_starting_date[i])
+
+        payment_starting_date = datetime.datetime(payment_starting_date[0],payment_starting_date[2],payment_starting_date[1])
+
+        print(payment_starting_date)
         
-        # payment_starting_date = date(data["start_date"])
         payment_frequency_value = 0
         
         if payment_frequency == "annually": payment_frequency_value= 12
@@ -136,6 +144,7 @@ class LoanProductEvaluateView(generics.GenericAPIView):
 
         print("number of installments: ",number_of_instalments)
         print("payment frequency value:",payment_frequency_value)
+        
         ## 'amount': 30000, 'payment_frequency': 'monthly', 'loan_period': 12, 'start_date': '2023-25-4', 'interest_type': 'flat'}
         ## [{'id': 1, 'loan_name': 'fuliza', 'bank': 1, 'flat_rate': 20, 'reducing_balance_rate': 18, 'processing_fees': 3, 'exercise_duty': 20, 'legal_fees': 10000}]
         
@@ -152,7 +161,7 @@ class LoanProductEvaluateView(generics.GenericAPIView):
         
         [possible_total_payable.append(principle+interest_rates[i]+products[i]["processing_fees"]+products[i]["legal_fees"]+((((products[i]["exercise_duty"])/100))*products[i]["processing_fees"])) for i in range(0, len(products))]
         print("totalPayable: ",possible_total_payable)
-
+        value_of_installment_amount=[]
         if(type_interest=="flat"):
             [temporary_installment_rate.append((possible_total_payable[i]-principle)/(number_of_instalments)) for i in range(0, len(products))]
             [temporary_installment_amount.append(round((possible_total_payable[i])/(number_of_instalments),2)) for i in range(0, len(products))]
@@ -161,12 +170,15 @@ class LoanProductEvaluateView(generics.GenericAPIView):
             for i in range(0, len(products)):
                 installment_plan = {}
                 total_loan= possible_total_payable[i]
+                next_date = payment_starting_date
                 for j in range(1,(number_of_instalments+1)):
-                    installment_plan[str(j)] = {"loan":total_loan,"installment":temporary_installment_amount[i],"remaining":(round(total_loan-temporary_installment_amount[i],2))}
+                    installment_plan[str(j)] = {"next_date":next_date,"loan":total_loan,"installment":temporary_installment_amount[i],"remaining":(round(total_loan-temporary_installment_amount[i],2))}
                 
                     total_loan = total_loan-temporary_installment_amount[i]
+                    next_date = payment_starting_date+ relativedelta(months=payment_frequency_value)
 
                 instalment_table.append(installment_plan)
+            value_of_installment_amount=temporary_installment_amount
             # print(instalment_table) 
 
         # elif(type_interest=="reduced"):
@@ -185,7 +197,7 @@ class LoanProductEvaluateView(generics.GenericAPIView):
         #         instalment_table.append(installment_plan)
 
         
-        results = {"principle":principle,"payment_frequency":payment_frequency,"loan_period":loan_period,"type_interest":type_interest,"number":len(products),"total_payable":possible_total_payable,"interest":interest_rates,"instalment_table":instalment_table}      
+        results = {"principle":principle,"payment_frequency":payment_frequency,"loan_period":loan_period,"type_interest":type_interest,"number":len(products),"total_payable":possible_total_payable,"interest":interest_rates,"number_of_installments":number_of_instalments,"installment_amount":value_of_installment_amount,"instalment_table":instalment_table}      
         print(results)
         database.child("EvaluationData").push(results, user['idToken'])
         return Response(results, status=status.HTTP_200_OK)
