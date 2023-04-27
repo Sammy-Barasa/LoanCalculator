@@ -1,8 +1,11 @@
 import React,{useState,useEffect} from 'react'
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 import * as FileSaver from 'file-saver';
-
+import { EmailResults } from '../api/api';
 import * as XLSX from 'xlsx';
+import FormSuccess from '../forms/FormSuccess';
+import FormError from '../forms/FormError';
+
 // import { useHistory } from "react-router-dom"
 // import StateContext from '../../Context/stateContext'
 
@@ -11,10 +14,26 @@ const ExportModal = ({data,label_name,product_title}) => {
 
     
     const [open, setOpen] = useState(false)
+    const [datastatus, setDataStatus] = useState(null)
+    const [errortatus, setErrorStatus] = useState(null)
+    const [successMessage, setSuccess] = useState(null)
 
     useEffect(()=>{
-
-    },[])
+        if (datastatus?.status === 200) {
+            // console.log("here")
+            // console.log(data)
+            
+            setSuccess({"responsestatusText":"Email sent succesfully","detail":`Welcome, ${datastatus?.data}`})
+            setTimeout(()=>{
+              
+            //   navigate("/home",{state:{"user":data.data},replace:true})
+            setOpen(false)
+            },2000)
+  
+          }else{
+          console.log(errortatus)
+        }
+    },[datastatus?.status,errortatus,datastatus?.data])
 
 
 
@@ -50,6 +69,13 @@ const ExportModal = ({data,label_name,product_title}) => {
         exportToCSV(data, fileNameConstructed)
         setOpen(false)
     }
+
+    const handleEmail=(e)=>{
+        e.preventDefault()
+        
+        EmailResults(data, setDataStatus,setErrorStatus)
+        
+    }
     return (
         <Modal
             onClose={() => setOpen(false)}
@@ -59,6 +85,8 @@ const ExportModal = ({data,label_name,product_title}) => {
             >
             <Modal.Header>{`Loan evaluation for bank: ${label_name}`}</Modal.Header>
             <Modal.Content image>
+            {errortatus?FormError(errortatus):""}
+                        {successMessage?FormSuccess(successMessage):""}
                 <Icon name="file excel" size="massive" color="green"/>
                 <Modal.Description>
                     <Header>{`${product_title} evaluation results`}</Header>
@@ -69,9 +97,14 @@ const ExportModal = ({data,label_name,product_title}) => {
                 </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
+                
+                <Button.Group>
                 <Button color='red' onClick={() => setOpen(false)}>
                 <Icon name='remove' /> Cancel
                 </Button>
+                <Button.Or />
+                    <Button primary onClick={handleEmail}>Email it!</Button>
+                </Button.Group>
                 <Button color='green' onClick={handleExport}>
                 <Icon name='external square' /> Export
                 </Button>

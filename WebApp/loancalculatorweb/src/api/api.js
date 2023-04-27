@@ -103,3 +103,17 @@ export const EvaluateLoanProduct= (LoanProductData,setData,setError)=> {
         setError(error)
     })
 }
+
+
+export const EmailResults= (ResultsData,setDataStatus,setError)=> {
+
+    axiosFetch().post('calc/email/',ResultsData)
+    .then((response)=>{
+        console.log(response)
+        setDataStatus(response)
+    })
+    .catch((error)=>{
+        console.log(error) 
+        setError(error)
+    })
+}

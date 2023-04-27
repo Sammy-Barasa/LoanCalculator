@@ -1,17 +1,24 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import {  Card,Container,Button,Tab,Table } from 'semantic-ui-react'
 import TotalsBarChart from "./ChartGraphs/TotalsBarChart"
 import ExportModal from "./ExportModal"
+
 // import LoanDougnut from './ChartGraphs/LoanDougnut';
 // import LoanDon from './ChartGraphs/LoanDon';
 function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
     // console.log(selectedids) 
     // console.log(evaluatedproducts)
-        
+
+      const [activeIndex, setActiveIndex]=useState(0) 
+      const [statedata, setStateData]=useState([]) 
        let Ksh = new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'Ksh',
         });
+
+        useEffect(()=>{
+          // setStateData(Object.values(Data.instalment_table[index-1]))
+        },[])
 
    const SummaryPart = ()=>(
     <Card fluid>
@@ -100,40 +107,48 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
   if(index===0){
   }else{
     temp["menuItem"]= tb
+    
     temp["render"] = ()=>(<Tab.Pane attached={false}>{<>
       <Container>
       <div className='show-modal-div'><ExportModal data={Object.values(Data.instalment_table[index-1])} label_name={tb} product_title={producttitles[index-1]}/></div>
       <Table>
         <Table.Header>
         <Table.Row>
+        <Table.HeaderCell >Date</Table.HeaderCell>
           <Table.HeaderCell >Loan</Table.HeaderCell>
           <Table.HeaderCell >Installment</Table.HeaderCell>
           <Table.HeaderCell >Remaining</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
         <Table.Body>
-        {/* {Data.instalment_table[index-1].map((inst,index)=>{
-          return(<><p>{`${inst}`}</p> </>)
-        })} */}
-        {/* {console.log(Data.instalment_table[index-1].forEach(item,index)=>{
-          console.log(item)
-        })} */}
-        {/* {Object.values(Data.instalment_table[index-1]).forEach((val,index) => */}
-          {/* (<Table.Row key={index}> */}
-          {/* <Table.Cell>{val.loan}</Table.Cell>
-          <Table.Cell>{val.installment}</Table.Cell>
-          <Table.Cell>{val.remaining}</Table.Cell> */}
-          {/* {console.log(val)} */}
-        {/* </Table.Row>))} */}
+
+        {
+          statedata.map((val,index)=>{
+            return(<Table.Row key={index}>
+              <Table.Cell>{val.next_date}</Table.Cell>
+              <Table.Cell>{val.loan}</Table.Cell>
+              <Table.Cell>{val.installment}</Table.Cell>
+              <Table.Cell>{val.remaining}</Table.Cell>
+            </Table.Row>)
+          })
+        }
         </Table.Body>
       </Table>
       </Container></>}
     </Tab.Pane>)
-    // console.log(temp)
     panes.push(temp)
   }
+
   return temp
  })
+
+ const handleTabChange = (e,{activeIndex})=>{
+  e.preventDefault()
+  console.log("tab changed")
+  setActiveIndex(activeIndex)
+  setStateData(Object.values(Data.instalment_table[activeIndex]))
+  console.log(statedata)
+ }
   return (
     <div className='show'>
         {/* <h4>Show Evaluation Data</h4> */}
@@ -152,7 +167,7 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
         <Card fluid>
         <Card.Content>
           <Card.Meta>Installment Table</Card.Meta>
-          {<Tab menu={{ secondary: true, pointing: true }} panes={panes} />}
+          {<Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={handleTabChange} activeIndex={activeIndex}/>}
           {/* {InstallmentsData} */}
         </Card.Content>
         </Card>
