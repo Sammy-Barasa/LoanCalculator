@@ -125,7 +125,7 @@ class LoanProductEvaluateView(generics.GenericAPIView):
         payment_frequency = data["payment_frequency"]
         loan_period = data["loan_period"]
         type_interest = data["interest_type"]
-        payment_starting_date = data["payment_starting_date"]
+        payment_starting_date = data["start_date"]
         payment_starting_date=payment_starting_date.split("-")
         for i in range(0,len(payment_starting_date)):
             payment_starting_date[i]=int(payment_starting_date[i])
