@@ -42,14 +42,14 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
             <Button
                 content='Number of Installments'
                 // icon='heart'
-                label={{ as: 'p', basic: true, content: `${Data.number}`}}
+                label={{ as: 'p', basic: true, content: `${Data.number_of_installments}`}}
                 labelPosition='right'
             />
             <Button
-                content='Installment Amount'
+                content='Payment frequency'
                 // icon='heart'
                 
-                label={{ as: 'a', basic: true, content: `${Ksh.format(Data.principle)}`}}
+                label={{ as: 'a', basic: true, content: `${Data.payment_frequency}`}}
                 labelPosition='right'
             /> 
             <Button
@@ -66,6 +66,7 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
    
 
   let bargraphdata = {"name": "Total payable Amount","principle":parseInt(Data.principle)}
+  let interestgraphdata = {"name": "Interest Amount"}
   let bargraphdataaxis = ["principle",]
   let producttitles = []
   
@@ -76,6 +77,7 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
       let pd=y[0]
       bargraphdata[`${pd.bank.bank_name}_${pd.loan_name}`] = parseInt(Data.total_payable[index])
       bargraphdataaxis.push(`${pd.bank.bank_name}_${pd.loan_name}`)
+      interestgraphdata[`${pd.bank.bank_name}_${pd.loan_name}`] = parseInt(Data.installment_amount[index])
       producttitles.push(pd.loan_name)
       y=[]
     }
@@ -141,6 +143,7 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
         <Card.Content>
         <Card.Meta as="p">Graphs</Card.Meta>
         {<TotalsBarChart data={[bargraphdata,]} axisdata ={bargraphdataaxis}/>}
+        {<TotalsBarChart data={[interestgraphdata,]} axisdata ={bargraphdataaxis}/>}
         {/* {<LoanDougnut data={data}/>} */}
         {/* {<LoanDon/>} */}
         </Card.Content>
