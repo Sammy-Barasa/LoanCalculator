@@ -172,7 +172,8 @@ class LoanProductEvaluateView(generics.GenericAPIView):
                 total_loan= possible_total_payable[i]
                 next_date = payment_starting_date
                 for j in range(1,(number_of_instalments+1)):
-                    installment_plan[str(j)] = {"next_date":next_date,"loan":total_loan,"installment":temporary_installment_amount[i],"remaining":(round(total_loan-temporary_installment_amount[i],2))}
+                    temp_next_date = next_date
+                    installment_plan[str(j)] = {"next_date":temp_next_date.strftime("%Y-%d-%m %H:%M:%S"),"loan":total_loan,"installment":temporary_installment_amount[i],"remaining":(round(total_loan-temporary_installment_amount[i],2))}
                 
                     total_loan = total_loan-temporary_installment_amount[i]
                     next_date = payment_starting_date+ relativedelta(months=payment_frequency_value)
