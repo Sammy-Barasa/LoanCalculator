@@ -18,8 +18,8 @@ function Login() {
     
     useEffect(() => {
         if (data?.status === 200) {
-          console.log("here")
-          console.log(data)
+          // console.log("here")
+          // console.log(data)
           window.localStorage.setItem("token", data?.data.tokens.access);
           setSuccess({"responsestatusText":"Login in successful","detail":`Welcome, ${data.data.username}`})
           setTimeout(()=>{

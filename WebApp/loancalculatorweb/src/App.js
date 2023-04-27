@@ -16,7 +16,7 @@ import ResultPage from './pages/ResultPage';
 function App() {
   const [setuser, setUser] = useState(null)
   const location = useLocation();
-  console.log(location, " useLocation Hook");
+  // console.log(location, " useLocation Hook");
   useEffect(()=>{
     const user = location.state?.user;
     setUser(user)

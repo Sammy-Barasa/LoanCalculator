@@ -39,25 +39,36 @@ function Home() {
 
   useEffect(() => {
     if (dataresults?.status === 200) {
-      console.log("here")
-      console.log(dataresults.data)
+      // console.log("here")
+      // console.log(dataresults.data)
       setFormData({});
       // setSuccess({"responsestatusText":"Signup is successful","detail":`${data.data.message}. Check your email for verification`})
       setTimeout(()=>{
       setData({})
       setLoading(false)
       alert("Evaluation complete, redirecting")
-      navigate("/results",{state:{"evaluation":dataresults.data,"user":user}})
+      let tempevaluated=[]
+      selectedproducts.map((sp,index)=>{
+        let y =[]
+        y=loanproducts.filter((lp)=>(lp.id=== sp))
+        if(y.length!==0){
+          tempevaluated.push(y[0])
+          y=[]
+        }
+        return y
+      })
+      // console.log(tempevaluated)
+      navigate("/results",{state:{"selectedevaluated":selectedproducts,"evaluated":tempevaluated,"evaluation":dataresults.data,"user":user}})
       },2000)
     }
     
     
-}, [dataresults,navigate,user])
+}, [dataresults,navigate,user,selectedproducts,loanproducts])
 
 useEffect(() => {
   // if (dataresults?.status === 200) {
   //   console.log("here")
-    console.log(error)
+    // console.log(error)
     setLoading(false)
     // setFormData({});
     // // setSuccess({"responsestatusText":"Signup is successful","detail":`${data.data.message}. Check your email for verification`})
@@ -124,7 +135,7 @@ const handleEvaluateRequest = (e)=>{
                       "start_date": form.start_date,
                       "interest_type":"flat"
                     }
-    console.log(requestdata)
+    // console.log(requestdata)
     setLoading(true)
     EvaluateLoanProduct(requestdata,setData,setError)
     
@@ -154,7 +165,7 @@ const requestFormInvalid = selectedproducts.length<1 || !form.amount || !form.pa
             onChange={(e,{value})=>{
               e.preventDefault()
               setFormData({ ...form, "interest_type": value });
-              console.log(form)
+              // console.log(form)
             }}
           />
           </Form.Field>
@@ -186,7 +197,7 @@ const requestFormInvalid = selectedproducts.length<1 || !form.amount || !form.pa
               onChange={(e,{value})=>{
                 e.preventDefault()
                 setFormData({ ...form, "payment_frequency": value });
-                console.log(form)
+                // console.log(form)
               }}
             />
             </Form.Field>

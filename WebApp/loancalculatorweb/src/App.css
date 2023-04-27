@@ -139,6 +139,18 @@ footer{
   flex: auto;
 
 }
+.show{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.show-summary{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 /* .input-block{
   display: flex;
   flex-direction: column;
