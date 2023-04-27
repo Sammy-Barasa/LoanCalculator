@@ -256,10 +256,8 @@ const requestFormInvalid = selectedproducts.length<1 || !form.amount || !form.pa
           })}
         </List>
       </div>
-      <div>
-    
-        <Button type='button' loading={loading} disabled={requestFormInvalid} onClick={handleEvaluateRequest}positive>Evaluate Prospective Loans</Button>
-      </div>  
+      <br/>
+        <Button type='button' loading={loading} disabled={requestFormInvalid} onClick={handleEvaluateRequest}positive>Evaluate Prospective Loans</Button> 
     </div>
   )
 }

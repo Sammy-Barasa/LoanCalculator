@@ -151,6 +151,13 @@ footer{
   flex-wrap: wrap;
   gap: 10px;
 }
+
+.show-modal-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  
+}
 /* .input-block{
   display: flex;
   flex-direction: column;

@@ -7,7 +7,7 @@ import * as XLSX from 'xlsx';
 // import StateContext from '../../Context/stateContext'
 
 
-const ExportModal = ({data}) => {
+const ExportModal = ({data,label_name,product_title}) => {
 
     
     const [open, setOpen] = useState(false)
@@ -29,7 +29,7 @@ const ExportModal = ({data}) => {
 
         const ws = XLSX.utils.json_to_sheet(csvData);
 
-        const wb = { Sheets: { 'Exam nominal roll': ws }, SheetNames: ['Exam nominal roll'] };
+        const wb = { Sheets: { 'Loan evaluation': ws }, SheetNames: ['Loan evaluation'] };
 
         const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
 
@@ -42,7 +42,7 @@ const ExportModal = ({data}) => {
     
     let timeStamp = Date.now()
     // let fileNameConstructed = `Exam records at${wassignedBy} for ${Month},${year}_${timeStamp}`
-    let fileNameConstructed = `Exam records at ${timeStamp}`
+    let fileNameConstructed = `Loan evaluation ${label_name} for ${product_title}_${timeStamp}`
 
     const handleExport=(e)=>{
         e.preventDefault()
@@ -57,13 +57,13 @@ const ExportModal = ({data}) => {
             open={open}
             trigger={<Button color="green" button><Icon name='external' />Export to  excel sheet</Button>}
             >
-            <Modal.Header>{`Exam records at for period, ${timeStamp} to ${timeStamp}`}</Modal.Header>
+            <Modal.Header>{`Loan evaluation for bank: ${label_name}`}</Modal.Header>
             <Modal.Content image>
                 <Icon name="file excel" size="massive" color="green"/>
                 <Modal.Description>
-                    <Header>Test download</Header>
+                    <Header>{`${product_title} evaluation results`}</Header>
                     <p>
-                        {`The Exam Log to be downloaded as excel sheet, do you wish to proceed to proceed?`}
+                        {`The evaluation Log to be downloaded as excel sheet, do you wish to proceed to proceed?`}
                     </p>
                     
                 </Modal.Description>

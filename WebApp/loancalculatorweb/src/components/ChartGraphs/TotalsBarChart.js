@@ -5,6 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'rech
 
 export default function  TotalsBarChart({data,axisdata}) {
   // static demoUrl = 'https://codesandbox.io/s/simple-bar-chart-tpz8r';
+  // console.log(axisdata)
 
   const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
 
@@ -13,8 +14,8 @@ export default function  TotalsBarChart({data,axisdata}) {
       // <ResponsiveContainer width="100%" height="100%">
       <>
         <BarChart
-          width={400}
-          height={200}
+          width={500}
+          height={300}
           data={data}
           margin={{
             top: 5,

@@ -16,18 +16,18 @@ function ResultPage() {
         setSelectedIds(selectedids)
         const evaluatedproducts = location.state?.evaluated
         setEvaluatedProducts(evaluatedproducts)
-        console.log(location.state)
+        // console.log(location.state)
     
       },[location.state?.evaluation,location.state])
       
-      console.log(evaluateddata)
+      // console.log(evaluateddata)
   return (
     <div>
         {/* <h4>Results Page</h4> */}
         {/* <p>Data visualization coming soon! graphs and charts, meanwhile ...</p> */}
         <br/>
         {/* <pre>{JSON.stringify(evaluateddata,null,20)}</pre> */}
-        {evaluatedproducts?(<ShowEvaluation selectedids={selectedids} evaluatedproducts={evaluatedproducts}/>):""}
+        {evaluatedproducts?(<ShowEvaluation selectedids={selectedids} evaluatedproducts={evaluatedproducts} Data={evaluateddata}/>):""}
     </div>
   )
 }
