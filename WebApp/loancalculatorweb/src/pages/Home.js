@@ -153,8 +153,27 @@ const requestFormInvalid = selectedproducts.length<1 || !form.amount || !form.pa
         <Form.Group widths='equal'>
           <Form.Input label='Loan Amount' placeholder='loan amount' type='number' required name="amount" value={form.amount||""} onChange={handleChange}/>
           <Form.Input label='Payment Period' placeholder='payment period' type='number' name="loan_period" value={form.loan_period||""} onChange={handleChange} required />
+          <Form.Radio
+              label='years'
+              name='radioGroup'
+              value="y"
+              checked={timevalue==='y'}
+              onChange={handleRadioChange}
+            />
+            <Form.Radio
+              label='months'
+              name='radioGroup'
+              value="m"
+              checked={timevalue ==="m"}
+              onChange={handleRadioChange}
+            />
           
-          <Form.Field required>
+          </Form.Group>
+          <Form.Group widths='equal'>
+            <Form.Input label='Payment start date' placeholder='start date' type='date' name="start_date" value={form.start_date||""} onChange={handleChange} required/>
+        
+            
+            <Form.Field required>
           <label>
           Type of interest
             </label>
@@ -169,25 +188,8 @@ const requestFormInvalid = selectedproducts.length<1 || !form.amount || !form.pa
             }}
           />
           </Form.Field>
-          </Form.Group>
-          <Form.Group widths='equal'>
-            <Form.Input label='Payment start date' placeholder='start date' type='date' name="start_date" value={form.start_date||""} onChange={handleChange} required/>
-        
-            <Form.Radio
-              label='years'
-              name='radioGroup'
-              value="y"
-              checked={timevalue==='y'}
-              onChange={handleRadioChange}
-            />
-            <Form.Radio
-              label='months'
-              name='radioGroup'
-              value="m"
-              checked={timevalue ==="m"}
-              onChange={handleRadioChange}
-            />
             <Form.Field required>
+
             <label>
             Payment frequency
             </label>

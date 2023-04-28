@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import { Button, Form , Header, Icon,Divider} from 'semantic-ui-react'
 import { RegisterUser,RegisterUserSocial } from '../api/api'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import  FormError  from "../forms/FormError"
 import FormSuccess from '../forms/FormSuccess'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -13,6 +13,7 @@ function Signup() {
   const [loading, setLoading] = useState(false)
   const [errorMessage, setError] = useState({})
   const [successMessage, setSuccess] = useState(null)
+  const navigate = useNavigate()
   
   useEffect(() => {
     if (data?.status === 201) {
@@ -23,10 +24,17 @@ function Signup() {
       setTimeout(()=>{
       setData({})
       },2000)
+    }else if(data?.status === 200){
+      setSuccess({"responsestatusText":"Signup is successful","detail":` Email is verified`})
+      setTimeout(()=>{
+      
+      navigate("/home",{state:{"user":data.data},replace:true})
+      setData({})
+      },2000)
     }
     
     
-}, [data])
+}, [data,navigate])
 
   function handleRegister(e) {
     e.preventDefault()
