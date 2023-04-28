@@ -32,14 +32,14 @@ auth = firebase.auth()
 # from dotenv import dotenv_values
 # config = dotenv_values(".env")
 # print(config)
-# email_val_sec = config["FIREBASE_EMAIL"]
-# pass_val_sec = config["FIREBASE_PASSWORD"]
+# email_val = config['FIREBASE_EMAIL']
+# pass_val = config['FIREBASE_PASSWORD']
 
-import os
-email_val = os.environ.get("FIREBASE_EMAIL")
-pass_val = os.environ.get("FIREBASE_PASSWORD")
+# import os
+# email_val = os.environ.get("FIREBASE_EMAIL")
+# pass_val = os.environ.get("FIREBASE_PASSWORD")
 
-user_firebase = auth.sign_in_with_email_and_password(email=email_val,password=pass_val )
+user_firebase = auth.sign_in_with_email_and_password("loancalculator3@gmail.com","password=pass_val" )
 user_firebase = auth.refresh(user_firebase['refreshToken'])
 database=firebase.database()
 
