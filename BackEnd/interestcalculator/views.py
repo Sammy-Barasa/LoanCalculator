@@ -32,8 +32,8 @@ auth = firebase.auth()
 from dotenv import dotenv_values
 config = dotenv_values(".env")
 print(config)
-email_val_sec = config['FIREBASE_EMAIL']
-pass_val_sec = config['FIREBASE_PASSWORD']
+email_val_sec = config["FIREBASE_EMAIL"]
+pass_val_sec = config["FIREBASE_PASSWORD"]
 
 import os
 email_val = os.environ.get("FIREBASE_EMAIL",email_val_sec)
