@@ -8,40 +8,11 @@ from interestcalculator.serializers import LoanProductSerializer
 from interestcalculator.models import LoanProduct
 import datetime
 from dateutil.relativedelta import relativedelta
+from interestcalculator.utils import ConnectToFirebase
 # import os
 
 
 # Create your views here.
-
-
-
-firebaseConfig = {
-  "apiKey": "AIzaSyCJZJVSecrTTHHPOR6axx0s4MplRnXNjCY",
- "authDomain": "loaninterestcalculator-47138.firebaseapp.com",
-  "databaseURL": "https://loaninterestcalculator-47138-default-rtdb.firebaseio.com",
-  "projectId": "loaninterestcalculator-47138",
-  "storageBucket": "loaninterestcalculator-47138.appspot.com",
-  "messagingSenderId": "809479780786",
-  "appId": "1:809479780786:web:d82d9a3013cdfc041f8cab",
-  "measurementId": "G-6JPM2VVNMR"
-}
-
-firebase=pyrebase.initialize_app(firebaseConfig)
-auth = firebase.auth()
-
-# from dotenv import dotenv_values
-# config = dotenv_values(".env")
-# print(config)
-# email_val = config['FIREBASE_EMAIL']
-# pass_val = config['FIREBASE_PASSWORD']
-
-# import os
-# email_val = os.environ.get("FIREBASE_EMAIL")
-# pass_val = os.environ.get("FIREBASE_PASSWORD")
-
-user_firebase = auth.sign_in_with_email_and_password("loancalculator3@gmail.com","password=pass_val" )
-user_firebase = auth.refresh(user_firebase['refreshToken'])
-database=firebase.database()
 
 
 class BankView(generics.GenericAPIView):
@@ -200,7 +171,8 @@ class LoanProductEvaluateView(generics.GenericAPIView):
         
         results = {"principle":principle,"payment_frequency":payment_frequency,"loan_period":loan_period,"type_interest":type_interest,"number":len(products),"total_payable":possible_total_payable,"interest":interest_rates,"number_of_installments":number_of_instalments,"installment_amount":value_of_installment_amount,"instalment_table":instalment_table}      
         print(results)
-        database.child("EvaluationData").push(results, user_firebase['idToken'])
+        fbse = ConnectToFirebase("EvaluationData",results)
+        fbse.firebase_send()
         return Response(results, status=status.HTTP_200_OK)
     
     # lookup_field = "bank_id"

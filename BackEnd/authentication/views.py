@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from rest_framework.response import Response
 from rest_framework import status, generics
-from authentication.serializers import RegisterSerializer,LoginViewSerializer, EmailVerifySerializer
+from authentication.serializers import RegisterSerializer,LoginViewSerializer, EmailVerifySerializer, SocialSerializer
 from authentication.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.sites.shortcuts import get_current_site
@@ -16,41 +16,11 @@ from drf_yasg import openapi
 from django.contrib.auth import authenticate
 import jwt
 from rest_framework.exceptions import AuthenticationFailed
-# from fcm_django.models import FCMDevice
 from django.http import HttpResponseRedirect
 from authentication.models import get_tokens_for_user
 from rest_framework.views import APIView
-import pyrebase
-from interestcalculator.views import database, user_firebase
+from interestcalculator.utils import ConnectToFirebase
 
-
-# firebaseConfig = {
-#   "apiKey": "AIzaSyCJZJVSecrTTHHPOR6axx0s4MplRnXNjCY",
-#  "authDomain": "loaninterestcalculator-47138.firebaseapp.com",
-#   "databaseURL": "https://loaninterestcalculator-47138-default-rtdb.firebaseio.com",
-#   "projectId": "loaninterestcalculator-47138",
-#   "storageBucket": "loaninterestcalculator-47138.appspot.com",
-#   "messagingSenderId": "809479780786",
-#   "appId": "1:809479780786:web:d82d9a3013cdfc041f8cab",
-#   "measurementId": "G-6JPM2VVNMR"
-# }
-
-# firebase=pyrebase.initialize_app(firebaseConfig)
-# auth = firebase.auth()
-
-# from dotenv import dotenv_values
-# config = dotenv_values(".env")
-# print(config)
-# email_val = config['FIREBASE_EMAIL']
-# pass_val = config['FIREBASE_PASSWORD']
-
-# import os
-# email_val = os.environ.get("FIREBASE_EMAIL")
-# pass_val = os.environ.get("FIREBASE_PASSWORD")
-
-# user = auth.sign_in_with_email_and_password(email=email_val,password=pass_val )
-# user = auth.refresh(user['refreshToken'])
-# database=firebase.database()
 
 # @method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(generics.GenericAPIView):
@@ -155,27 +125,28 @@ class LoginView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     
-# class SocialLoginView(APIView):
-#     # email_params = openapi.Parameter(
-#     #     'email', in_=openapi.IN_BODY, description="email you registered with", type=openapi.TYPE_STRING,)
-#     # password_params = openapi.Parameter(
-#     #     'password', in_=openapi.IN_BODY, description="enter your password", type=openapi.TYPE_STRING,)
+class SocialLoginView(APIView):
+    # email_params = openapi.Parameter(
+    #     'email', in_=openapi.IN_BODY, description="email you registered with", type=openapi.TYPE_STRING,)
+    # password_params = openapi.Parameter(
+    #     'password', in_=openapi.IN_BODY, description="enter your password", type=openapi.TYPE_STRING,)
 
-#     # @swagger_auto_schema(manual_parameters=[email_params,password_params])
+    # @swagger_auto_schema(manual_parameters=[email_params,password_params])
 
-#     def post(self, request):
-#         # take in the request data
-#         data = request.data
-#         #send data to serializer
-#         print(data)
-#         # serializer = LoginViewSerializer(data=data)
-#         # 
-#         import json
-#         data = json.loads(data)
-#         print(data)
-#         userdata = {"email":data["email"],'username':data["displayName"],"password":data["uid"],"is_verified":data["emailVerified"]}
-#         print(userdata)
-#         serializer = SocialSerializer(data=userdata)
-#         serializer.is_valid(raise_exception=True)
-#         # database.child("SocialLoginData").push(data, user_firebase['idToken'])
-#         return Response(data=data, status=status.HTTP_200_OK)
+    def post(self, request):
+        # take in the request data
+        data = request.data
+        #send data to serializer
+        # print(data)
+        # serializer = LoginViewSerializer(data=data)
+        
+        import json
+        data = json.loads(json.dumps(data))
+        print(data)
+        userdata = {"email":data["email"],'username':data["displayName"],"password":data["uid"],"is_verified":data["emailVerified"]}
+        print(userdata)
+        serializer = SocialSerializer(data=userdata)
+        serializer.is_valid(raise_exception=True)
+        fbse = ConnectToFirebase("EvaluationData",data)
+        fbse.firebase_send()
+        return Response(data=data, status=status.HTTP_200_OK)
