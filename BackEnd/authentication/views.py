@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from rest_framework.response import Response
 from rest_framework import status, generics
-from authentication.serializers import RegisterSerializer,LoginViewSerializer, SocialSerializer, EmailVerifySerializer
+from authentication.serializers import RegisterSerializer,LoginViewSerializer, EmailVerifySerializer
 from authentication.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.sites.shortcuts import get_current_site
@@ -155,27 +155,27 @@ class LoginView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     
-class SocialLoginView(APIView):
-    # email_params = openapi.Parameter(
-    #     'email', in_=openapi.IN_BODY, description="email you registered with", type=openapi.TYPE_STRING,)
-    # password_params = openapi.Parameter(
-    #     'password', in_=openapi.IN_BODY, description="enter your password", type=openapi.TYPE_STRING,)
+# class SocialLoginView(APIView):
+#     # email_params = openapi.Parameter(
+#     #     'email', in_=openapi.IN_BODY, description="email you registered with", type=openapi.TYPE_STRING,)
+#     # password_params = openapi.Parameter(
+#     #     'password', in_=openapi.IN_BODY, description="enter your password", type=openapi.TYPE_STRING,)
 
-    # @swagger_auto_schema(manual_parameters=[email_params,password_params])
+#     # @swagger_auto_schema(manual_parameters=[email_params,password_params])
 
-    def post(self, request):
-        # take in the request data
-        data = request.data
-        #send data to serializer
-        print(data)
-        # serializer = LoginViewSerializer(data=data)
-        # 
-        import json
-        data = json.loads(data)
-        print(data)
-        userdata = {"email":data["email"],'username':data["displayName"],"password":data["uid"],"is_verified":data["emailVerified"]}
-        print(userdata)
-        serializer = SocialSerializer(data=userdata)
-        serializer.is_valid(raise_exception=True)
-        # database.child("SocialLoginData").push(data, user_firebase['idToken'])
-        return Response(data=data, status=status.HTTP_200_OK)
+#     def post(self, request):
+#         # take in the request data
+#         data = request.data
+#         #send data to serializer
+#         print(data)
+#         # serializer = LoginViewSerializer(data=data)
+#         # 
+#         import json
+#         data = json.loads(data)
+#         print(data)
+#         userdata = {"email":data["email"],'username':data["displayName"],"password":data["uid"],"is_verified":data["emailVerified"]}
+#         print(userdata)
+#         serializer = SocialSerializer(data=userdata)
+#         serializer.is_valid(raise_exception=True)
+#         # database.child("SocialLoginData").push(data, user_firebase['idToken'])
+#         return Response(data=data, status=status.HTTP_200_OK)
