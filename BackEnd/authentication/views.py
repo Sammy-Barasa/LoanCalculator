@@ -147,6 +147,9 @@ class SocialLoginView(APIView):
         # print(userdata)
         serializer = SocialSerializer(data=userdata)
         serializer.is_valid(raise_exception=True)
-        fbse = ConnectToFirebase("EvaluationData",data)
-        fbse.firebase_send()
+        try:
+            fbse = ConnectToFirebase("EvaluationData",data)
+            fbse.firebase_send()
+        except:
+            pass
         return Response(data=data, status=status.HTTP_200_OK)

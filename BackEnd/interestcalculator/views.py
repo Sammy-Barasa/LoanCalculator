@@ -171,8 +171,12 @@ class LoanProductEvaluateView(generics.GenericAPIView):
         
         results = {"principle":principle,"payment_frequency":payment_frequency,"loan_period":loan_period,"type_interest":type_interest,"number":len(products),"total_payable":possible_total_payable,"interest":interest_rates,"number_of_installments":number_of_instalments,"installment_amount":value_of_installment_amount,"instalment_table":instalment_table}      
         print(results)
-        fbse = ConnectToFirebase("EvaluationData",results)
-        fbse.firebase_send()
+        try:
+            fbse = ConnectToFirebase("EvaluationData",results)
+            fbse.firebase_send()
+        except:
+            pass
+        
         return Response(results, status=status.HTTP_200_OK)
     
     # lookup_field = "bank_id"
