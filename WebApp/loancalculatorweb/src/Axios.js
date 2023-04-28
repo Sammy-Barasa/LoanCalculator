@@ -19,7 +19,9 @@ const axiosFetch = ()=>{
         // http://127.0.0.1:8000
         // https://loancalculator-production.up.railway.app/
         // http://loancalculator.zeabur.app/calc/banks/
-        baseURL:"https://loancalculator.zeabur.app/",
+        
+        baseURL:"http://127.0.0.1:8000/",
+        // baseURL:"https://loancalculator.zeabur.app/",
         // credentials: "same-origin",
         headers:headers,
     })
@@ -29,6 +31,7 @@ const axiosFetch = ()=>{
         console.log(config)
         console.log(config.url)
         if(!config.url.includes("register")){
+            if(!config.url.includes("login")){
             const userToken = localStorage.getItem("token")
             const csrftoken = Cookies.get("csrftoken")
     
@@ -38,6 +41,7 @@ const axiosFetch = ()=>{
             if(csrftoken){
                 config.headers["X-CSRFToken"] = `${csrftoken}`
             }
+        }
         }
         console.log(config)
         return config;
