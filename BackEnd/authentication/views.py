@@ -21,7 +21,7 @@ from django.http import HttpResponseRedirect
 from authentication.models import get_tokens_for_user
 from rest_framework.views import APIView
 import pyrebase
-from interestcalculator.views import database,user
+from interestcalculator.views import database, user_firebase
 
 
 # firebaseConfig = {
@@ -177,5 +177,5 @@ class SocialLoginView(APIView):
         print(userdata)
         serializer = SocialSerializer(data=userdata)
         serializer.is_valid(raise_exception=True)
-        database.child("SocialLoginData").push(data, user['idToken'])
+        # database.child("SocialLoginData").push(data, user_firebase['idToken'])
         return Response(data=data, status=status.HTTP_200_OK)
