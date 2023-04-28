@@ -127,6 +127,7 @@ class SocialSerializer(serializers.Serializer):
             print(authenticated_user)
             if not authenticated_user:
                 print(username)
+                print(attrs)
                 rserializer=RegisterSerializer(data={"email":email,"username":username,"password":password,"is_verified":is_verified})
                 rserializer.is_valid(raise_exception=True)
                 rserializer.save()
