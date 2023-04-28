@@ -29,18 +29,18 @@ firebaseConfig = {
 firebase=pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
 
-from dotenv import dotenv_values
-config = dotenv_values(".env")
-print(config)
-email_val = config['FIREBASE_EMAIL']
-pass_val = config['FIREBASE_PASSWORD']
+# from dotenv import dotenv_values
+# config = dotenv_values(".env")
+# print(config)
+# email_val = config['FIREBASE_EMAIL']
+# pass_val = config['FIREBASE_PASSWORD']
 
-# import os
-# email_val = os.environ.get("FIREBASE_EMAIL")
-# pass_val = os.environ.get("FIREBASE_PASSWORD")
+import os
+email_val = os.environ.get("FIREBASE_EMAIL")
+pass_val = os.environ.get("FIREBASE_PASSWORD")
 
-user = auth.sign_in_with_email_and_password(email=email_val,password=pass_val )
-user = auth.refresh(user['refreshToken'])
+user_firebase = auth.sign_in_with_email_and_password(email=email_val,password=pass_val )
+user_firebase = auth.refresh(user_firebase['refreshToken'])
 database=firebase.database()
 
 
@@ -200,7 +200,7 @@ class LoanProductEvaluateView(generics.GenericAPIView):
         
         results = {"principle":principle,"payment_frequency":payment_frequency,"loan_period":loan_period,"type_interest":type_interest,"number":len(products),"total_payable":possible_total_payable,"interest":interest_rates,"number_of_installments":number_of_instalments,"installment_amount":value_of_installment_amount,"instalment_table":instalment_table}      
         print(results)
-        database.child("EvaluationData").push(results, user['idToken'])
+        database.child("EvaluationData").push(results, user_firebase['idToken'])
         return Response(results, status=status.HTTP_200_OK)
     
     # lookup_field = "bank_id"
