@@ -29,15 +29,15 @@ firebaseConfig = {
 firebase=pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
 
-from dotenv import dotenv_values
-config = dotenv_values(".env")
-print(config)
-email_val = config['FIREBASE_EMAIL']
-pass_val = config['FIREBASE_PASSWORD']
+# from dotenv import dotenv_values
+# config = dotenv_values(".env")
+# print(config)
+# email_val = config['FIREBASE_EMAIL']
+# pass_val = config['FIREBASE_PASSWORD']
 
-# import os
-# email_val = os.environ.get("FIREBASE_EMAIL")
-# pass_val = os.environ.get("FIREBASE_PASSWORD")
+import os
+email_val = os.environ.get("FIREBASE_EMAIL")
+pass_val = os.environ.get("FIREBASE_PASSWORD")
 
 user = auth.sign_in_with_email_and_password(email=email_val,password=pass_val )
 user = auth.refresh(user['refreshToken'])
