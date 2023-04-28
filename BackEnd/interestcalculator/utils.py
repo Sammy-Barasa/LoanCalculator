@@ -36,7 +36,7 @@ class ConnectToFirebase():
 
     def firebase_send(self):
         self.run_firebase()
-        self.database.child(self.database_endpoint).push(self.data_to_send, self.user_firebase['idToken'])
+        self.database.child(self.database_endpoint).push(self.data_to_send, self.user['idToken'])
 
 
 
