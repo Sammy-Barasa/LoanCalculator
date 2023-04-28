@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom";
 import LandingPage from './pages/LandingPage';
 import Admin from './pages/Admin';
 import ResultPage from './pages/ResultPage';
+import { Container } from 'semantic-ui-react';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
 
   return (
     <div className="App">
+      
       <header className="App-header">
         <p className="App-title">
           <NavLink to="/">Loan Calculator</NavLink>
@@ -36,6 +38,7 @@ function App() {
           <div><Link to="/api" state={{setuser:setuser}}>API</Link></div>
         </div>
       </header>
+      <Container>
       <div className="main">
         <Routes>
           <Route path="/" element={<LandingPage/>}/>
@@ -51,6 +54,7 @@ function App() {
       {/* <footer>
         <p>@loancalulator</p>
       </footer> */}
+      </Container>
     </div>
   );
 }

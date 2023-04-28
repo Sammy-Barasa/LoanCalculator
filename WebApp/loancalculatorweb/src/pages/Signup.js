@@ -1,9 +1,11 @@
 import React,{useState,useEffect} from 'react'
-import { Button, Form , Header, Icon} from 'semantic-ui-react'
-import { RegisterUser } from '../api/api'
+import { Button, Form , Header, Icon,Divider} from 'semantic-ui-react'
+import { RegisterUser,RegisterUserSocial } from '../api/api'
 import { Link } from 'react-router-dom'
 import  FormError  from "../forms/FormError"
 import FormSuccess from '../forms/FormSuccess'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {provider} from "../firebase";
 
 function Signup() {
   const [form,setForm]= useState({});
@@ -35,6 +37,35 @@ function Signup() {
     
   }
 
+  function handleSocialRegister(){
+
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        console.log(credential)
+        // const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+        console.log(user)
+        RegisterUserSocial(user,setData,setError);
+      }).catch((error) => {
+        // Handle Errors here.
+        setError(error)
+        console.log(error)
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        // The email of the user's account used.
+        // const email = error.customData.email;
+        // The AuthCredential type that was used.
+        // const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  }
+
   const onchange = (e) => {
   setForm({ ...form, [e.target.name]: e.target.value });
   }; 
@@ -63,6 +94,9 @@ form?.password!==form?.confirmpassword||!form?.email?.length || !form.password |
                     <Button disabled={registerFormInvalid} loading={loading} fluid primary type='submit'>Register</Button>
                     <Header as="h4">Have an account? <Link to="/signin">Sign In</Link></Header>
                 </Form>
+                <Divider horizontal>or</Divider>
+                <Button  color="teal" onClick={handleSocialRegister}><Icon name="google"/>Sign up with google</Button>
+                <br/>  
         </div>
   )
 }

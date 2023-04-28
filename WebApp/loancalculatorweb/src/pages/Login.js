@@ -1,9 +1,11 @@
 import React,{useState,useEffect} from 'react'
-import { Button, Header, Form, Icon } from 'semantic-ui-react'
+import { Button, Header, Form, Icon,Divider } from 'semantic-ui-react'
 import  FormError  from "../forms/FormError"
 import { Link, useNavigate } from 'react-router-dom'
-import { LoginUser } from '../api/api'
+import { LoginUser, LoginUserSocial } from '../api/api'
 import FormSuccess from '../forms/FormSuccess'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {provider} from "../firebase";
 
 
 
@@ -40,6 +42,34 @@ function Login() {
          
     }
 
+    function handleSocialLogin(){
+
+      const auth = getAuth();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          console.log(credential)
+          // const token = credential.accessToken;
+          // The signed-in user info.
+          const user = result.user;
+          // IdP data available using getAdditionalUserInfo(result)
+          // ...
+          console.log(user)
+          LoginUserSocial(user,setData,setError);
+        }).catch((error) => {
+          // Handle Errors here.
+          setError(error)
+          console.log(error)
+          // const errorCode = error.code;
+          // const errorMessage = error.message;
+          // The email of the user's account used.
+          // const email = error.customData.email;
+          // The AuthCredential type that was used.
+          // const credential = GoogleAuthProvider.credentialFromError(error);
+          // ...
+        });
+    }
     const onchange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     }; 
@@ -61,8 +91,11 @@ function Login() {
                           <Form.Input type="Email" label="Email" fluid name='email' placeholder='Enter your email' value={form.email||""} onChange={onchange}/>  
                           <Form.Input type='Password' name='password' label='password'placeholder='Enter your password' value={form.password||""} onChange={onchange}/>
                         <Button disabled={loginFormInvalid} fluid loading={loading} primary type='submit'>Login</Button>
-                    </Form>
-                    <Header as="h4">Dont have an account? <Link to="/signup">Sign Up</Link></Header>
+                      </Form>
+                    <Header as="h6">dont have an account? <Link to="/signup">sign up</Link></Header>
+                    <Divider horizontal>or</Divider>
+                    <Button  color="teal" onClick={handleSocialLogin}><Icon name="google"/>Login with google</Button>
+                    <br/>    
             </div>
     )
 }

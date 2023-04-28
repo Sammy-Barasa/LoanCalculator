@@ -1,7 +1,16 @@
 import React,{useEffect,useState} from 'react'
-import {  Card,Container,Button,Tab,Table } from 'semantic-ui-react'
+import {  Card,Container,Button,Tab } from 'semantic-ui-react'
 import TotalsBarChart from "./ChartGraphs/TotalsBarChart"
 import ExportModal from "./ExportModal"
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import TablePagination from '@mui/material/TablePagination';
 
 // import LoanDougnut from './ChartGraphs/LoanDougnut';
 // import LoanDon from './ChartGraphs/LoanDon';
@@ -16,6 +25,24 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
             currency: 'Ksh',
         });
 
+        const columns = [
+          {"id":0,"align":"left","minWidth":170,"label":"Date"},
+          {"id":0,"align":"right","minWidth":170,"label":"Loan"},
+          {"id":0,"align":"right","minWidth":170,"label":"Installment"},
+          {"id":0,"align":"right","minWidth":170,"label":"Remaining"},
+        ]
+        
+        const [page, setPage] = React.useState(0);
+        const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+        const handleChangePage = (event, newPage) => {
+          setPage(newPage);
+        };
+
+        const handleChangeRowsPerPage = (event) => {
+          setRowsPerPage(+event.target.value);
+          setPage(0);
+        };
         useEffect(()=>{
           // setStateData(Object.values(Data.instalment_table[index-1]))
         },[])
@@ -100,7 +127,9 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
   //   { name: 'Group C', value: 300 },
   //   { name: 'Group D', value: 200 },
   // ];
+  
   let panes = []
+  
  bargraphdataaxis.map((tb,index)=>{
   
   let temp = {}
@@ -108,10 +137,10 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
   }else{
     temp["menuItem"]= tb
     
-    temp["render"] = ()=>(<Tab.Pane attached={false}>{<>
-      <Container>
-      <div className='show-modal-div'><ExportModal data={Object.values(Data.instalment_table[index-1])} label_name={tb} product_title={producttitles[index-1]}/></div>
-      <Table>
+    temp["render"] = ()=>(<Tab.Pane attached={false} key={index}>{<>
+      <TableContainer component={Paper}>
+      <div className='show-modal-div'><Button basic value={activeIndex}>Tap tab name to see table</Button><ExportModal data={Object.values(Data.instalment_table[index-1])} label_name={tb} product_title={producttitles[index-1]}/></div>
+      {/* <Table>
         <Table.Header>
         <Table.Row>
         <Table.HeaderCell >Date</Table.HeaderCell>
@@ -119,22 +148,78 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
           <Table.HeaderCell >Installment</Table.HeaderCell>
           <Table.HeaderCell >Remaining</Table.HeaderCell>
         </Table.Row>
-      </Table.Header>
-        <Table.Body>
+      </Table.Header> */}
+      <Table sx={{ minWidth: 650 }} size="small" stickyHeader aria-label="sticky table">
+        <TableHead>
+          <TableRow>
+            {/* <TableCell>Date</TableCell>
+            <TableCell align="right">Loan</TableCell>
+            <TableCell align="right">Installment</TableCell>
+            <TableCell align="right">Remaining</TableCell> */}
+            {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
 
-        {
+        {/* {
           statedata.map((val,index)=>{
-            return(<Table.Row key={index}>
-              <Table.Cell>{val.next_date}</Table.Cell>
-              <Table.Cell>{val.loan}</Table.Cell>
-              <Table.Cell>{val.installment}</Table.Cell>
-              <Table.Cell>{val.remaining}</Table.Cell>
-            </Table.Row>)
+            return(
+            // <Table.Row key={index}>
+            //   <Table.Cell>{val.next_date}</Table.Cell>
+            //   <Table.Cell>{val.loan}</Table.Cell>
+            //   <Table.Cell>{val.installment}</Table.Cell>
+            //   <Table.Cell>{val.remaining}</Table.Cell>
+            // </Table.Row>
+            <TableRow
+              key={index}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {val.next_date}
+              </TableCell>
+              <TableCell align="right">{val.loan}</TableCell>
+              <TableCell align="right">{val.installment}</TableCell>
+              <TableCell align="right">{val.remaining}</TableCell>
+            </TableRow>
+            )
           })
-        }
-        </Table.Body>
+        } */}
+
+          {statedata
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((val,index) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                    <TableCell component="th" scope="row">
+                      {val.next_date}
+                    </TableCell>
+                    <TableCell align="right">{val.loan}</TableCell>
+                    <TableCell align="right">{val.installment}</TableCell>
+                    <TableCell align="right">{val.remaining}</TableCell>
+                  </TableRow>
+                );
+              })}
+        </TableBody>
       </Table>
-      </Container></>}
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={statedata.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      </>}
     </Tab.Pane>)
     panes.push(temp)
   }
@@ -147,8 +232,10 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
   console.log("tab changed")
   setActiveIndex(activeIndex)
   setStateData(Object.values(Data.instalment_table[activeIndex]))
+  setPage(0)
   console.log(statedata)
  }
+
   return (
     <div className='show'>
         {/* <h4>Show Evaluation Data</h4> */}
@@ -167,7 +254,7 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
         <Card fluid>
         <Card.Content>
           <Card.Meta>Installment Table</Card.Meta>
-          {<Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={handleTabChange} activeIndex={activeIndex}/>}
+          {<Tab menu={{ secondary: true, pointing: true }} panes={panes} onTabChange={handleTabChange} activeIndex={activeIndex} defaultActiveIndex={1}/>}
           {/* {InstallmentsData} */}
         </Card.Content>
         </Card>

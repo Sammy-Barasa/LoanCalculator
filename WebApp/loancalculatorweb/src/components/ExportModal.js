@@ -81,7 +81,7 @@ const ExportModal = ({data,label_name,product_title}) => {
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             open={open}
-            trigger={<Button color="green" button><Icon name='external' />Export to  excel sheet</Button>}
+            trigger={<Button color="green" button><span><Icon name='external' />Export to  excel sheet </span>or Email <Icon name='mail' /></Button>}
             >
             <Modal.Header>{`Loan evaluation for bank: ${label_name}`}</Modal.Header>
             <Modal.Content image>

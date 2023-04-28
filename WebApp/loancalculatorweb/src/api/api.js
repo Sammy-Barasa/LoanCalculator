@@ -12,6 +12,18 @@ export const RegisterUser = (userData,setData,setError)=> {
     })
 }
 
+export const RegisterUserSocial = (userData,setData,setError)=> {
+    
+    axiosFetch().post('auth/register/social/',userData)
+    .then((response)=>{
+        console.log(response)
+        setData(response)
+    }).catch((error)=>{
+        console.log(error)  
+        setError(error)
+    })
+}
+
 export const LoginUser = (userData,setData,setError)=> {
 
     axiosFetch().post('auth/login/',userData)
@@ -25,6 +37,18 @@ export const LoginUser = (userData,setData,setError)=> {
     })
 }
 
+export const LoginUserSocial = (userData,setData,setError)=> {
+
+    axiosFetch().post('auth/login/social/',userData)
+    .then((response)=>{
+        console.log(response.data)
+        setData(response)
+        // console.log(response.status)
+    }).catch((error)=>{
+        console.log(error)
+        setError(error)  
+    })
+}
 
 export const CreateBank = (BankData)=> {
 
