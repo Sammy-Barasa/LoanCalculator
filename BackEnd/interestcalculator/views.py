@@ -9,6 +9,7 @@ from interestcalculator.models import LoanProduct
 import datetime
 from dateutil.relativedelta import relativedelta
 from interestcalculator.utils import ConnectToFirebase
+from rest_framework.views import APIView
 # import os
 
 
@@ -176,9 +177,26 @@ class LoanProductEvaluateView(generics.GenericAPIView):
             fbse.firebase_send()
         except:
             pass
-        
+
         return Response(results, status=status.HTTP_200_OK)
-    
+
+class SendFileView(APIView):
+    # email_params = openapi.Parameter(
+    #     'email', in_=openapi.IN_BODY, description="email you registered with", type=openapi.TYPE_STRING,)
+    # password_params = openapi.Parameter(
+    #     'password', in_=openapi.IN_BODY, description="enter your password", type=openapi.TYPE_STRING,)
+
+    # @swagger_auto_schema(manual_parameters=[email_params,password_params])
+
+    def post(self, request):
+        # take in the request data
+        data = request.data
+
+        
+        import json
+        data = json.loads(json.dumps(data))
+        print(data)
+        return Response(data=data, status=status.HTTP_200_OK)  
     # lookup_field = "bank_id"
 
     # overriding get queryset

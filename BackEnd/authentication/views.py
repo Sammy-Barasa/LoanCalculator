@@ -143,8 +143,8 @@ class SocialLoginView(APIView):
         import json
         data = json.loads(json.dumps(data))
         # print(data)
-        userdata = {"email":data["email"],'username':data["displayName"],"password":data["uid"],"is_verified":data["emailVerified"]}
-        # print(userdata)
+        userdata = {"email":data["email"],"username":data["displayName"],"password":data["uid"],"is_verified":data["emailVerified"]}
+        print(userdata)
         serializer = SocialSerializer(data=userdata)
         serializer.is_valid(raise_exception=True)
         try:
@@ -152,4 +152,4 @@ class SocialLoginView(APIView):
             fbse.firebase_send()
         except:
             pass
-        return Response(data=data, status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
