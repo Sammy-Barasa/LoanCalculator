@@ -126,12 +126,6 @@ class LoginView(generics.GenericAPIView):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     
 class SocialLoginView(APIView):
-    # email_params = openapi.Parameter(
-    #     'email', in_=openapi.IN_BODY, description="email you registered with", type=openapi.TYPE_STRING,)
-    # password_params = openapi.Parameter(
-    #     'password', in_=openapi.IN_BODY, description="enter your password", type=openapi.TYPE_STRING,)
-
-    # @swagger_auto_schema(manual_parameters=[email_params,password_params])
 
     def post(self, request):
         # take in the request data
@@ -153,3 +147,22 @@ class SocialLoginView(APIView):
         except:
             pass
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+    
+
+
+# def send_email(request):
+#     # Generate the file
+#     generate_csv(request)
+
+#     # Attach the file to the email
+#     email = EmailMessage(
+#         'Subject',
+#         'Body',
+#         'from@example.com',
+#         ['to@example.com'],
+#     )
+#     with open('generated-file.csv', 'rb') as file:
+#         email.attach('generated-file.csv', file.read(), 'text/csv')
+
+#     # Send the email
+#     email.send()

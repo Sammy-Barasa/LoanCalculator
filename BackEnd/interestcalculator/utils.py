@@ -1,5 +1,7 @@
 import pyrebase
 import os
+import csv
+import pandas as pd
 # from dotenv import dotenv_values
 # config = dotenv_values(".env")
 # print(config)
@@ -28,7 +30,9 @@ class ConnectToFirebase():
         firebase=pyrebase.initialize_app(self.firebaseConfig)
         auth = firebase.auth()
         # user_firebase = auth.sign_in_with_email_and_password(os.environ.get("FIREBASE_EMAIL",email_val),os.environ.get("FIREBASE_PASSWORD",pass_val) )
-        user_firebase = auth.sign_in_with_email_and_password(os.environ.get("FIREBASE_EMAIL"),os.environ.get("FIREBASE_PASSWORD"))
+        email_val = os.environ.get("FIREBASE_EMAIL")
+        pass_val = os.environ.get("FIREBASE_PASSWORD")
+        user_firebase = auth.sign_in_with_email_and_password(email_val,pass_val)
         
         user_firebase = auth.refresh(user_firebase['refreshToken'])
         self.database=firebase.database()
@@ -40,3 +44,24 @@ class ConnectToFirebase():
 
 
 
+class FileWriter():
+
+    def write_dict_to_csv(self,file_path,data,headers):
+       
+       with open(file_path, 'w') as file:
+            # writer = csv.writer(file)
+            writer=csv.DictWriter(file, fieldnames=headers)
+            writer.writeheader()
+            writer.writerows(data)
+
+    def write_list_to_csv(self,file_path,data,headers):
+       with open(file_path, 'w') as file:
+            writer = csv.writer(file)
+            writer.writerow(headers)
+            writer.writerows(data)  
+
+    def write_dict_to_excell(self,file_path,data):
+        df = pd.DataFrame(data=data)
+        #convert into excel
+        df.to_excel(file_path, index=False)   
+        

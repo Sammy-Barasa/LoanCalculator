@@ -10,7 +10,11 @@ import datetime
 from dateutil.relativedelta import relativedelta
 from interestcalculator.utils import ConnectToFirebase
 from rest_framework.views import APIView
-# import os
+from authentication.utils import Utils
+from interestcalculator.utils import FileWriter
+from pathlib import Path
+import os
+import csv
 
 
 # Create your views here.
@@ -190,31 +194,29 @@ class SendFileView(APIView):
 
     def post(self, request):
         # take in the request data
-        data = request.data
+        file_data = request.data
+        print(request.user)
+        validated_user_email = request.user.email
 
+        print(file_data)
         
-        import json
-        data = json.loads(json.dumps(data))
-        print(data)
-        return Response(data=data, status=status.HTTP_200_OK)  
-    # lookup_field = "bank_id"
-
-    # overriding get queryset
-
-    # def get_queryset(self):
-    #     """
-    #     returns specific work for detail(get),updated(put),deleting(delete) 
-    #     """
-    #     id = self.kwargs['bank_id']
-    #     print(id)
-    #     queryset = Bank.objects.get(id=id)
-    #     return queryset
-    
-    # def put(self, request, bank_id):
-    #     print(bank_id)
-    #     data = request.data
-    #     serializer = self.serializer_class(self.get_queryset(),data=data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     print(serializer.data)
-    #     return Response(data={"message": "bank has been updated"}, status=status.HTTP_200_OK)
+        headers = ["next_date","loan","installment","remaining"]
+        base_path=Path(__file__).resolve().parent
+        absolute_path = str(os.path.join(base_path,'generated-file.csv'))
+        absolute_path_excel = str(os.path.join(base_path,'generated-file.xlsx'))
+        fr = FileWriter()
+        fr.write_dict_to_csv(absolute_path,file_data,headers)
+        fr.write_dict_to_excell(absolute_path_excel,file_data)
+        subject = "Loan Product Evaluation results"
+        body = "you are receiving this email, because you evaluated loan products withLoanInterestCalculator App.\n Find the attached file with the results in this email.\n"
+        data = {'subject': subject, 'body': body,'to_email': validated_user_email}
+        
+        try:
+            Utils.send_email_with_attachment(data=data,file_information=file_data,file_name=absolute_path_excel)
+            return Response(data={"message":f"Email sent to {validated_user_email}"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(f"{type(e)}: {e}")
+            return Response(data={"message":e}, status=status.HTTP_501_NOT_IMPLEMENTED)
+        finally:
+            os.remove(absolute_path)
+            os.remove(absolute_path_excel)
