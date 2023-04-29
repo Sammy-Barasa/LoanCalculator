@@ -208,7 +208,7 @@ class SendFileView(APIView):
         fr.write_dict_to_csv(absolute_path,file_data,headers)
         fr.write_dict_to_excell(absolute_path_excel,file_data)
         subject = "Loan Product Evaluation results"
-        body = "you are receiving this email, because you evaluated loan products withLoanInterestCalculator App.\n Find the attached file with the results in this email.\n\n\n Thanks,\n\nLoan Calculator Team"
+        body = "you are receiving this email, because you evaluated loan products withLoanInterestCalculator App.\n Find the attached file with the results in this email.'\n''\n' Thanks,'\n'\n'Loan Calculator Team"
         data = {'subject': subject, 'body': body,'username':request.user.username,'to_email': validated_user_email}
         
         try:
