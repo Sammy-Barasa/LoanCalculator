@@ -133,7 +133,7 @@ const handleEvaluateRequest = (e)=>{
                       "payment_frequency":form.payment_frequency,
                       "loan_period": parseInt(calibrated_period),
                       "start_date": form.start_date,
-                      "interest_type":"flat"
+                      "interest_type":form.interest_type
                     }
     // console.log(requestdata)
     setLoading(true)
@@ -153,13 +153,19 @@ const requestFormInvalid = selectedproducts.length<1 || !form.amount || !form.pa
         <Form.Group widths='equal'>
           <Form.Input label='Loan Amount' placeholder='loan amount' type='number' required name="amount" value={form.amount||""} onChange={handleChange}/>
           <Form.Input label='Payment Period' placeholder='payment period' type='number' name="loan_period" value={form.loan_period||""} onChange={handleChange} required />
-          <Form.Radio
+        <Form.Field>
+        <label>
+          periodi in months/years
+            </label>
+            <Form.Radio
               label='years'
               name='radioGroup'
               value="y"
               checked={timevalue==='y'}
               onChange={handleRadioChange}
             />
+        
+      
             <Form.Radio
               label='months'
               name='radioGroup'
@@ -167,6 +173,8 @@ const requestFormInvalid = selectedproducts.length<1 || !form.amount || !form.pa
               checked={timevalue ==="m"}
               onChange={handleRadioChange}
             />
+          </Form.Field>
+          
           
           </Form.Group>
           <Form.Group widths='equal'>
