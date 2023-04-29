@@ -32,11 +32,11 @@ class Utils:
         )
         email.content_subtype = "html"
         EmailThread(email).start()
-        
+
     @staticmethod
     def send_email_with_attachment(data,file_information,file_name):
         # Attach the file to the email
-        html_message = get_template("verifymail.html").render({"information":data['body']})
+        html_message = get_template("send_file.html").render({"information":data['body'],"username":data['username']})
         email = EmailMessage(
             subject=data['subject'],
             body=html_message,
