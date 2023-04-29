@@ -28,6 +28,8 @@ const ExportModal = ({data,label_name,product_title}) => {
               
             //   navigate("/home",{state:{"user":data.data},replace:true})
             setOpen(false)
+            setSuccess(null)
+            setDataStatus(null)
             },2000)
   
           }else{
