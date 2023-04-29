@@ -195,9 +195,9 @@ function ShowEvaluation({selectedids,evaluatedproducts,Data}) {
 
           {statedata
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((val,index) => {
+              .map((val) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={parseInt(val.remaining)}>
                     <TableCell component="th" scope="row">
                       {val.next_date}
                     </TableCell>
