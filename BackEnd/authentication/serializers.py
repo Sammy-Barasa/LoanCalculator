@@ -125,16 +125,19 @@ class SocialSerializer(serializers.Serializer):
     email = serializers.EmailField(max_length=255)
     password = serializers.CharField(
         min_length=6, max_length=100, write_only=True)
-    # tokens = serializers.SerializerMethodField()
+    tokens = serializers.SerializerMethodField()
     # # is_verified = serializers.BooleanField()
 
     # # get_user_token from the method in our user model
-    # def get_tokens(self, obj):
-    #     user = User.objects.get(email=obj['email'])
-    #     return{
-    #         "refresh": get_tokens_for_user(user)['refresh'],
-    #         "access": get_tokens_for_user(user)['access']
-    #     }
+    def get_tokens(self, obj):
+        try:
+            user = User.objects.get(email=obj['email'])
+            return{
+                "refresh": get_tokens_for_user(user)['refresh'],
+                "access": get_tokens_for_user(user)['access']
+            }
+        except:
+            pass
 
     class Meta:
         model = get_user_model()
