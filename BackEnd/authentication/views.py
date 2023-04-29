@@ -138,7 +138,7 @@ class SocialLoginView(APIView):
         data = json.loads(json.dumps(data))
         # print(data)
         userdata = {"email":data["email"],"username":data["displayName"],"password":data["uid"],"is_verified":data["emailVerified"]}
-        print(userdata)
+        # print(userdata)
         serializer = SocialSerializer(data=userdata)
         serializer.is_valid(raise_exception=True)
         try:

@@ -99,16 +99,12 @@ class RegisterSocialSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ['email', 'username', 'password','is_verified']
-#         extra_kwargs = {'fcm_token':{
-#                                       'required':False,
-#                                       'allow_null':True
-#                                     }
-#                        }
 
     def validate(self, attr):
         email = attr.get('email')
         username = attr.get('username')
         password = attr.get('password')
+        is_verified = attr.get('is_verified')
 
         if not password.isalnum():
             raise ValidationError('Username must contain only alphanumeric')
@@ -116,6 +112,7 @@ class RegisterSocialSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # validated_data.pop("fcm_token",None)
+        print("data before register: ",validated_data)
         return get_user_model().objects.create_user(**validated_data)
 
 class SocialSerializer(serializers.Serializer):
@@ -125,10 +122,10 @@ class SocialSerializer(serializers.Serializer):
     email = serializers.EmailField(max_length=255)
     password = serializers.CharField(
         min_length=6, max_length=100, write_only=True)
-    tokens = serializers.SerializerMethodField()
-    # # is_verified = serializers.BooleanField()
+    is_verified = serializers.BooleanField(write_only=True)
+    tokens = serializers.DictField(read_only=True)
 
-    # # get_user_token from the method in our user model
+    # # # get_user_token from the method in our user model
     def get_tokens(self, obj):
         try:
             user = User.objects.get(email=obj['email'])
@@ -145,8 +142,7 @@ class SocialSerializer(serializers.Serializer):
 
     # validate
     def validate(self, attrs):
-        print("here")
-        print(attrs)
+        print("at start",attrs)
         email = attrs.get('email')
         password = attrs.get('password')
         is_verified = attrs.get("is_verified")
@@ -154,23 +150,14 @@ class SocialSerializer(serializers.Serializer):
         # authenticate the user
         
         try:
+            # authenticated_user = auth.authenticate(email=email, password=password)
+            authenticated_user = User.objects.get(email=email)
             authenticated_user = auth.authenticate(email=email, password=password)
             print(authenticated_user)
             if not authenticated_user:
-                print(username)
+                print("not found")
                 print(attrs)
-                rserializer=RegisterSocialSerializer(data={"email":email,"password":password,"is_verified":is_verified,"username":username})
-                rserializer.is_valid(raise_exception=True)
-                rserializer.save()
-                user_data = rserializer.validated_data
-                new_user = auth.authenticate(email=user_data["email"], password=password)
-                data_user = {
-                    "id": new_user.id,
-                    "username": new_user.username,
-                    "email": new_user.email,
-                    "tokens": get_tokens_for_user(new_user),
-                }
-                return data_user
+                return AuthenticationFailed('Invalid credentials, try email and password method')
                 
             if not authenticated_user.is_verified:
                 print("email not verified")
@@ -182,10 +169,40 @@ class SocialSerializer(serializers.Serializer):
             "id": authenticated_user.id,
             "username": authenticated_user.username,
             "email": authenticated_user.email,
-            "tokens": get_tokens_for_user(authenticated_user),
+            "tokens": {
+                "refresh": get_tokens_for_user(authenticated_user)['refresh'],
+                "access": get_tokens_for_user(authenticated_user)['access']
+            },
+            }
+            print(data)
+            return data
+        except User.DoesNotExist:
+            print("email not in database")
+            print(attrs)
+            print("is verified ",is_verified)
+        
+            # rserializer=RegisterSocialSerializer(data={"email":email,"password":password,"is_verified":is_verified,"username":username})
+            rserializer=RegisterSocialSerializer(data=attrs)
+            rserializer.is_valid(raise_exception=True)
+            rserializer.save()
+            user_data = rserializer.validated_data
+            print("social user created")
+            print(user_data)
+            authenticated_user = auth.authenticate(email=user_data["email"], password=password)
+            # # raise
+            data = {
+            "id": authenticated_user.id,
+            "username": authenticated_user.username,
+            "email": authenticated_user.email,
+            "tokens": {
+                "refresh": get_tokens_for_user(authenticated_user)['refresh'],
+                "access": get_tokens_for_user(authenticated_user)['access']
+            },
             }
             return data
-        except:
-            return attrs
+
+
+            
+            # raise
 
 
