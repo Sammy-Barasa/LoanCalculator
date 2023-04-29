@@ -78,7 +78,7 @@ AUTH_USER_MODEL = 'authentication.User'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'authentication','templates')],
+        'DIRS': [os.path.join(BASE_DIR,'authentication','templates'),os.path.join(BASE_DIR,'interestcalculator','templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
