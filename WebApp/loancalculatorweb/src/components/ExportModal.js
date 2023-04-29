@@ -23,7 +23,7 @@ const ExportModal = ({data,label_name,product_title}) => {
             // console.log("here")
             // console.log(data)
             
-            setSuccess({"responsestatusText":"Email sent succesfully","detail":`Welcome, ${datastatus?.data.data}`})
+            setSuccess({"responsestatusText":"Email sent succesfully","detail":`Welcome, ${datastatus?.data.message}`})
             setTimeout(()=>{
               
             //   navigate("/home",{state:{"user":data.data},replace:true})
