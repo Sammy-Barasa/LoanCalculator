@@ -143,35 +143,43 @@ class LoanProductEvaluateView(generics.GenericAPIView):
             [temporary_installment_amount.append(round((possible_total_payable[i])/(number_of_instalments),2)) for i in range(0, len(products))]
             instalment_table = []
             total_loan= 0
+            
             for i in range(0, len(products)):
+                next_date = payment_starting_date
                 installment_plan = {}
                 total_loan= possible_total_payable[i]
-                next_date = payment_starting_date
+                
                 for j in range(1,(number_of_instalments+1)):
                     temp_next_date = next_date
                     installment_plan[str(j)] = {"next_date":temp_next_date.strftime("%Y-%m-%d %H:%M:%S"),"loan":total_loan,"installment":temporary_installment_amount[i],"remaining":(round(total_loan-temporary_installment_amount[i],2))}
                 
                     total_loan = total_loan-temporary_installment_amount[i]
-                    next_date = payment_starting_date+ relativedelta(months=payment_frequency_value)
+                    temp_next_date = payment_starting_date+ relativedelta(months=payment_frequency_value)
 
                 instalment_table.append(installment_plan)
             value_of_installment_amount=temporary_installment_amount
             # print(instalment_table) 
 
-        # elif(type_interest=="reduced"):
-        #     [temporary_installment_rate.append((possible_total_payable[i]-principle)/(number_of_instalments)) for i in range(0, len(products))]
-        #     [temporary_installment_amount.append(round((possible_total_payable[i])/(number_of_instalments),2)) for i in range(0, len(products))]
-        #     instalment_table = []
-        #     total_loan= 0
-        #     for i in range(0, len(products)):
-        #         installment_plan = {}
-        #         total_loan= possible_total_payable[i]
-        #         for j in range(1,(number_of_instalments+1)):
-        #             installment_plan[str(j)] = {"loan":total_loan,"installment":temporary_installment_amount[i],"remaining":(round(total_loan-temporary_installment_amount[i],2))}
+        elif(type_interest=="reduced"):
+            [temporary_installment_rate.append((possible_total_payable[i]-principle)/(number_of_instalments)) for i in range(0, len(products))]
+            [temporary_installment_amount.append(round((possible_total_payable[i])/(number_of_instalments),2)) for i in range(0, len(products))]
+            instalment_table = []
+            total_loan= 0
+            
+            for i in range(0, len(products)):
+                next_date = payment_starting_date
+                installment_plan = {}
+                total_loan= possible_total_payable[i]
                 
-        #             total_loan = total_loan-temporary_installment_amount[i]
+                for j in range(1,(number_of_instalments+1)):
+                    temp_next_date = next_date
+                    installment_plan[str(j)] = {"next_date":temp_next_date.strftime("%Y-%m-%d %H:%M:%S"),"loan":total_loan,"installment":temporary_installment_amount[i],"remaining":(round(total_loan-temporary_installment_amount[i],2))}
+                
+                    total_loan = total_loan-temporary_installment_amount[i]
+                    temp_next_date = payment_starting_date+ relativedelta(months=payment_frequency_value)
 
-        #         instalment_table.append(installment_plan)
+                instalment_table.append(installment_plan)
+            value_of_installment_amount=temporary_installment_amount
 
         
         results = {"principle":principle,"payment_frequency":payment_frequency,"loan_period":loan_period,"type_interest":type_interest,"number":len(products),"total_payable":possible_total_payable,"interest":interest_rates,"number_of_installments":number_of_instalments,"installment_amount":value_of_installment_amount,"instalment_table":instalment_table}      
@@ -208,7 +216,7 @@ class SendFileView(APIView):
         fr.write_dict_to_csv(absolute_path,file_data,headers)
         fr.write_dict_to_excell(absolute_path_excel,file_data)
         subject = "Loan Product Evaluation results"
-        body = "you are receiving this email, because you evaluated loan products withLoanInterestCalculator App.\n Find the attached file with the results in this email.'\n''\n' Thanks,'\n'\n'Loan Calculator Team"
+        body = "you are receiving this email, because you evaluated loan products withLoanInterestCalculator App.\n Find the attached file with the results in this email.\n\nThanks,\n\nLoan Calculator Team"
         data = {'subject': subject, 'body': body,'username':request.user.username,'to_email': validated_user_email}
         
         try:
